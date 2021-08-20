@@ -22,7 +22,7 @@
 
 		public override string ToString()
 		{
-			return $"[{GetType().Name}: '{Key}'] {ToStringImpl()}";
+			return $"[{GetType().Name}({Key})] {ToStringImpl()}";
 		}
 
 		protected abstract string ToStringImpl();

@@ -16,6 +16,11 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 			public object Value;
 		}
 
+		private class DeepNestClass
+		{
+			public RootClass Root = new RootClass();
+		}
+
 		private RootClass m_RootA;
 		private RootClass m_RootB;
 
@@ -29,10 +34,23 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		}
 
 		[Test]
+		public void CompareDeeplyNestedClasses()
+		{
+			DeepNestClass deepA = new DeepNestClass();
+			DeepNestClass deepB = new DeepNestClass();
+			deepA.Root.Nested.Value = 2;
+			deepB.Root.Nested.Value = 1;
+
+			ObjectIssue diff = m_Comparer.Compare(deepA, deepB);
+			Assert.AreEqual(1, diff.Nodes.Count);
+			TestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
+		}
+
+		[Test]
 		public void CanCompareNestedClasses()
 		{
 			ObjectIssue diff = m_Comparer.Compare(m_RootA, m_RootB);
-			Assert.AreEqual(0, diff.Differences.Count);
+			Assert.IsNull(diff);
 		}
 
 		[Test]

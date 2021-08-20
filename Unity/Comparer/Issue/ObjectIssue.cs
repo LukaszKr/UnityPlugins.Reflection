@@ -5,16 +5,26 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 	public class ObjectIssue : ADetectedIssue
 	{
 		public readonly List<ObjectIssue> Nodes = new List<ObjectIssue>();
-		public readonly List<ADetectedIssue> Differences = new List<ADetectedIssue>();
+		public readonly List<ADetectedIssue> Issues = new List<ADetectedIssue>();
 
 		public ObjectIssue(ObjectIssue parent, string key)
 			: base(parent, key)
 		{
 		}
 
+		public bool TryAddIssue(ADetectedIssue issue)
+		{
+			if(issue != null)
+			{
+				Issues.Add(issue);
+				return true;
+			}
+			return false;
+		}
+
 		protected override string ToStringImpl()
 		{
-			return $"[Diffs: {Differences.Count}]";
+			return $"[{nameof(Nodes)}: {Nodes.Count}, {nameof(Issues)}: {Issues.Count}]";
 		}
 	}
 }

@@ -3,19 +3,19 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
 	public class DuplicatedSingletonIssue : ADetectedIssue
 	{
-		public readonly Type SingletonTypeA;
-		public readonly Type SingletonTypeB;
+		public readonly Type LeftSingleton;
+		public readonly Type RightSingleton;
 
-		public DuplicatedSingletonIssue(ObjectIssue parent, string key, Type singletonTypeA, Type singletonTypeB)
+		public DuplicatedSingletonIssue(ObjectIssue parent, string key, Type leftSingleton, Type rightSingleton)
 			: base(parent, key)
 		{
-			SingletonTypeA = singletonTypeA;
-			SingletonTypeB = singletonTypeB;
+			LeftSingleton = leftSingleton;
+			RightSingleton = rightSingleton;
 		}
 
 		protected override string ToStringImpl()
 		{
-			return $"['{SingletonTypeA.Name}' | '{SingletonTypeB.Name}']";
+			return $"['{LeftSingleton.Name}' | '{RightSingleton.Name}']";
 		}
 	}
 }

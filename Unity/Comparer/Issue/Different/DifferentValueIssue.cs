@@ -2,19 +2,19 @@
 {
 	public class DifferentValueIssue : ADetectedIssue
 	{
-		public readonly object ValueA;
-		public readonly object ValueB;
+		public readonly object LeftValue;
+		public readonly object RightValue;
 
-		public DifferentValueIssue(ObjectIssue parent, string key, object valueA, object valueB)
+		public DifferentValueIssue(ObjectIssue parent, string key, object leftValue, object rightValue)
 			: base(parent, key)
 		{
-			ValueA = valueA;
-			ValueB = valueB;
+			LeftValue = leftValue;
+			RightValue = rightValue;
 		}
 
 		protected override string ToStringImpl()
 		{
-			return $"[{ValueA} =/= {ValueB}]";
+			return $"[{LeftValue} =/= {RightValue}]";
 		}
 	}
 }

@@ -4,19 +4,19 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
 	public class DifferentTypeIssue : ADetectedIssue
 	{
-		public readonly Type TypeA;
-		public readonly Type TypeB;
+		public readonly Type LeftType;
+		public readonly Type RightType;
 
-		public DifferentTypeIssue(ObjectIssue parent, string path, Type typeA, Type typeB)
+		public DifferentTypeIssue(ObjectIssue parent, string path, Type leftType, Type rightType)
 			: base(parent, path)
 		{
-			TypeA = typeA;
-			TypeB = typeB;
+			LeftType = leftType;
+			RightType = rightType;
 		}
 
 		protected override string ToStringImpl()
 		{
-			return $"[{TypeA.Name} =/= {TypeB.Name}]";
+			return $"[{LeftType.Name} =/= {RightType.Name}]";
 		}
 	}
 }

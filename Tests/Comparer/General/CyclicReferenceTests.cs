@@ -22,8 +22,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 			cyclicB.Cyclic.Cyclic = cyclicB;
 
 			ObjectIssue diff = m_Comparer.Compare(cyclicA, cyclicB);
-			Assert.AreEqual(0, diff.Differences.Count);
-			Assert.AreEqual(0, diff.Nodes.Count);
+			Assert.IsNull(diff);
 		}
 	}
 }

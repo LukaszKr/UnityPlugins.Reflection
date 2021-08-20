@@ -3,7 +3,7 @@ using ProceduralLevel.UnityPlugins.Comparer.Unity;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 {
-	public class ComparePrimitivesTests : AComparerTests
+	public class PrimitiveTests : AComparerTests
 	{
 		// A Test behaves as an ordinary method
 		[Test]
