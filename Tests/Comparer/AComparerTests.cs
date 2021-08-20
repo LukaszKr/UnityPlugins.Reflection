@@ -12,8 +12,8 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 	{
 		protected ReflectionComparer m_Comparer;
 
-		[OneTimeSetUp]
-		public virtual void OneTimeSetUp()
+		[SetUp]
+		public virtual void Setup()
 		{
 			m_Comparer = new ReflectionComparer();
 		}

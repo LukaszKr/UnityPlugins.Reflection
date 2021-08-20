@@ -9,36 +9,36 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void String()
 		{
-			ObjectDifference diff = m_Comparer.Compare("stringA", "stringB");
-			TestHelper.AssertDiff(diff, typeof(ValueDifference));
+			ObjectIssue diff = m_Comparer.Compare("stringA", "stringB");
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 
 		[Test]
 		public void DifferentPrimitives()
 		{
-			ObjectDifference diff = m_Comparer.Compare(1, 1.0f);
-			TestHelper.AssertDiff(diff, typeof(ValueDifference), typeof(TypeDifference));
+			ObjectIssue diff = m_Comparer.Compare(1, 1.0f);
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentTypeIssue));
 		}
 
 		[Test]
 		public void RightSideNull()
 		{
-			ObjectDifference diff = m_Comparer.Compare("hello", null);
-			TestHelper.AssertDiff(diff, typeof(ValueDifference));
+			ObjectIssue diff = m_Comparer.Compare("hello", null);
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 
 		[Test]
 		public void LeftSideNull()
 		{
-			ObjectDifference diff = m_Comparer.Compare(null, "hello");
-			TestHelper.AssertDiff(diff, typeof(ValueDifference));
+			ObjectIssue diff = m_Comparer.Compare(null, "hello");
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 
 		[Test]
 		public void PrimitiveAndString()
 		{
-			ObjectDifference diff = m_Comparer.Compare(1, "hello");
-			TestHelper.AssertDiff(diff, typeof(ValueDifference), typeof(TypeDifference));
+			ObjectIssue diff = m_Comparer.Compare(1, "hello");
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentTypeIssue));
 		}
 	}
 }

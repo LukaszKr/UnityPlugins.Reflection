@@ -6,7 +6,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 {
 	public static class TestHelper
 	{
-		public static void AssertDiff(ObjectDifference diff, params Type[] expectedDiffs)
+		public static void AssertDiff(ObjectIssue diff, params Type[] expectedDiffs)
 		{
 			int length = expectedDiffs.Length;
 			int diffCount = diff.Differences.Count;

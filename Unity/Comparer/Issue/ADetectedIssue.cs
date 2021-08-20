@@ -1,11 +1,11 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public abstract class ADifference
+	public abstract class ADetectedIssue
 	{
-		public readonly ObjectDifference Parent;
+		public readonly ObjectIssue Parent;
 		public readonly string Key;
 
-		public ADifference(ObjectDifference parent, string key)
+		public ADetectedIssue(ObjectIssue parent, string key)
 		{
 			Parent = parent;
 			Key = key;

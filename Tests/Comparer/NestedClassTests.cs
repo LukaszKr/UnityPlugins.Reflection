@@ -20,8 +20,10 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		private RootClass m_RootB;
 
 		[SetUp]
-		public void Setup()
+		public override void Setup()
 		{
+			base.Setup();
+
 			m_RootA = new RootClass();
 			m_RootB = new RootClass();
 		}
@@ -29,7 +31,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void CanCompareNestedClasses()
 		{
-			ObjectDifference diff = m_Comparer.Compare(m_RootA, m_RootB);
+			ObjectIssue diff = m_Comparer.Compare(m_RootA, m_RootB);
 			Assert.AreEqual(0, diff.Differences.Count);
 		}
 
@@ -39,9 +41,9 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 			m_RootA.Nested.Value = "321";
 			m_RootB.Nested.Value = "123";
 
-			ObjectDifference diff = m_Comparer.Compare(m_RootA, m_RootB);
+			ObjectIssue diff = m_Comparer.Compare(m_RootA, m_RootB);
 			Assert.AreEqual(1, diff.Nodes.Count);
-			TestHelper.AssertDiff(diff.Nodes[0], typeof(ValueDifference));
+			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue));
 		}
 
 		[Test]
@@ -49,9 +51,9 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		{
 			m_RootB.Nested = null;
 
-			ObjectDifference diff = m_Comparer.Compare(m_RootA, m_RootB);
+			ObjectIssue diff = m_Comparer.Compare(m_RootA, m_RootB);
 			Assert.AreEqual(0, diff.Nodes.Count);
-			TestHelper.AssertDiff(diff, typeof(ValueDifference));
+			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 	}
 }

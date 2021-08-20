@@ -2,12 +2,12 @@
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public class TypeDifference : ADifference
+	public class DifferentTypeIssue : ADetectedIssue
 	{
 		public readonly Type TypeA;
 		public readonly Type TypeB;
 
-		public TypeDifference(ObjectDifference parent, string path, Type typeA, Type typeB)
+		public DifferentTypeIssue(ObjectIssue parent, string path, Type typeA, Type typeB)
 			: base(parent, path)
 		{
 			TypeA = typeA;

@@ -2,9 +2,9 @@
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public class TypeDifferenceDetector : ADifferenceDetector
+	public class TypeDifferenceDetector : AIssueDetector
 	{
-		public override ADifference Detect(ObjectDifference parent, string path, object a, object b)
+		public override ADetectedIssue Detect(ObjectIssue parent, string path, object a, object b)
 		{
 			if(a == null || b == null)
 			{
@@ -15,7 +15,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			Type typeB = b.GetType();
 			if(typeA != typeB)
 			{
-				return new TypeDifference(parent, path, typeA, typeB);
+				return new DifferentTypeIssue(parent, path, typeA, typeB);
 			}
 			return null;
 		}

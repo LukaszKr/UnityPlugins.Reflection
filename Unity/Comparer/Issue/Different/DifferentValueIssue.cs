@@ -1,11 +1,11 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public class ValueDifference : ADifference
+	public class DifferentValueIssue : ADetectedIssue
 	{
 		public readonly object ValueA;
 		public readonly object ValueB;
 
-		public ValueDifference(ObjectDifference parent, string key, object valueA, object valueB)
+		public DifferentValueIssue(ObjectIssue parent, string key, object valueA, object valueB)
 			: base(parent, key)
 		{
 			ValueA = valueA;

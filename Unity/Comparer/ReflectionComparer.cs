@@ -6,7 +6,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
 	public class ReflectionComparer
 	{
-		private readonly List<ADifferenceDetector> m_ValueDetectors = new List<ADifferenceDetector>();
+		private readonly List<AIssueDetector> m_ValueDetectors = new List<AIssueDetector>();
 
 		private readonly HashSet<int> m_VisitedObjects = new HashSet<int>();
 
@@ -16,12 +16,34 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			AddDetector(new ValueDifferenceDetector());
 		}
 
-		public void AddDetector(ADifferenceDetector detector)
+		#region Detectors
+		public void AddDetector(AIssueDetector detector)
 		{
 			m_ValueDetectors.Add(detector);
 		}
 
-		public ObjectDifference Compare(object a, object b)
+		public void DetectSharedObject(Type type)
+		{
+			AddDetector(new SharedObjectDetector(type));
+		}
+
+		public void DetectSharedObject<TShared>(TShared shared)
+		{
+			DetectSharedObject(typeof(TShared));
+		}
+
+		public void DetectSingleton(Type type)
+		{
+			AddDetector(new DuplicatedSingletonDetector(type));
+		}
+
+		public void DetectSingleton<TSingleton>(TSingleton singleton)
+		{
+			DetectSingleton(typeof(TSingleton));
+		}
+		#endregion
+
+		public ObjectIssue Compare(object a, object b)
 		{
 			try
 			{
@@ -37,9 +59,9 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			}
 		}
 
-		private ObjectDifference CompareObjects(ObjectDifference parent, string path, object objectA, object objectB)
+		private ObjectIssue CompareObjects(ObjectIssue parent, string path, object objectA, object objectB)
 		{
-			ObjectDifference current = new ObjectDifference(parent, path);
+			ObjectIssue current = new ObjectIssue(parent, path);
 
 			if(CompareValues(current, path, objectA, objectB))
 			{
@@ -82,14 +104,14 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			return current;
 		}
 
-		private bool CompareValues(ObjectDifference parent, string path, object valueA, object valueB)
+		private bool CompareValues(ObjectIssue parent, string path, object valueA, object valueB)
 		{
 			int count = m_ValueDetectors.Count;
 			bool isDifferent = false;
 			for(int x = 0; x < count; ++x)
 			{
-				ADifferenceDetector detector = m_ValueDetectors[x];
-				ADifference difference = detector.Detect(parent, path, valueA, valueB);
+				AIssueDetector detector = m_ValueDetectors[x];
+				ADetectedIssue difference = detector.Detect(parent, path, valueA, valueB);
 				if(difference != null)
 				{
 					isDifferent = true;
