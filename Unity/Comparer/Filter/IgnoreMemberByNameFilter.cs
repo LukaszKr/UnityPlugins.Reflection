@@ -13,11 +13,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			m_MemberName = memberName;
 		}
 
-		public override bool ShouldIgnore(object value)
-		{
-			return false;
-		}
-
 		protected override bool OnShouldIgnore(object parent, FieldInfo field)
 		{
 			return field.Name == m_MemberName;

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public abstract class ATypeFilter : AFilter
+	public abstract class ATypeFilter : AFilter, IPropertyFilter, IFieldFilter
 	{
 		private readonly Type m_ParentType;
 
@@ -12,7 +12,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			m_ParentType = parentType;
 		}
 
-		public override bool ShouldIgnore(object parent, FieldInfo field)
+		public bool ShouldIgnore(object parent, FieldInfo field)
 		{
 			if(m_ParentType.IsAssignableFrom(parent.GetType()))
 			{
@@ -21,7 +21,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			return false;
 		}
 
-		public override bool ShouldIgnore(object parent, PropertyInfo property)
+		public bool ShouldIgnore(object parent, PropertyInfo property)
 		{
 			if(m_ParentType.IsAssignableFrom(parent.GetType()))
 			{

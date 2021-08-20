@@ -13,11 +13,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			m_MemberType = memberType;
 		}
 
-		public override bool ShouldIgnore(object value)
-		{
-			return false;
-		}
-
 		protected override bool OnShouldIgnore(object parent, FieldInfo field)
 		{
 			return m_MemberType.IsAssignableFrom(field.FieldType);

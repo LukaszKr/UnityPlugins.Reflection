@@ -1,6 +1,7 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public abstract class AFilter
+	public interface IValueFilter
 	{
+		bool ShouldIgnore(object value);
 	}
 }

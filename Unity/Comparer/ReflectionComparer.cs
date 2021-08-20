@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
@@ -10,7 +11,9 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		private readonly TypeDifferenceDetector m_TypeDifference = new TypeDifferenceDetector();
 
 		private readonly List<AIssueDetector> m_Detectors = new List<AIssueDetector>();
-		private readonly List<AFilter> m_Filters = new List<AFilter>();
+		private readonly List<IValueFilter> m_ValueFilters = new List<IValueFilter>();
+		private readonly List<IFieldFilter> m_FieldFilters = new List<IFieldFilter>();
+		private readonly List<IPropertyFilter> m_PropertyFilters = new List<IPropertyFilter>();
 
 		private readonly HashSet<int> m_VisitedObjects = new HashSet<int>();
 
@@ -248,21 +251,60 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		#region Filters
 		public ReflectionComparer AddFilter(AFilter filter)
 		{
-			m_Filters.Add(filter);
+			if(filter is IValueFilter value)
+			{
+				AddValueFilter(value);
+			}
+			if(filter is IFieldFilter field)
+			{
+				AddFieldFilter(field);
+			}
+			if(filter is IPropertyFilter property)
+			{
+				AddPropertyFilter(property);
+			}
 			return this;
 		}
 
-		public ReflectionComparer Ignore(Type parentType, string memberName)
+		public ReflectionComparer AddValueFilter(IValueFilter valueFilter)
+		{
+			m_ValueFilters.Add(valueFilter);
+			return this;
+		}
+
+		public ReflectionComparer AddFieldFilter(IFieldFilter fieldFilter)
+		{
+			m_FieldFilters.Add(fieldFilter);
+			return this;
+		}
+
+		public ReflectionComparer AddPropertyFilter(IPropertyFilter propertyFilter)
+		{
+			m_PropertyFilters.Add(propertyFilter);
+			return this;
+		}
+
+		public ReflectionComparer IgnoreMember<TParent>(string memberName)
+		{
+			return AddFilter(new IgnoreMemberByNameFilter(typeof(TParent), memberName));
+		}
+
+		public ReflectionComparer IgnoreMember(Type parentType, string memberName)
 		{
 			return AddFilter(new IgnoreMemberByNameFilter(parentType, memberName));
 		}
 
-		public ReflectionComparer Ignore(Type parentType, Type memberType)
+		public ReflectionComparer IgnoreMember(Type parentType, Type memberType)
 		{
 			return AddFilter(new IgnoreMemberByTypeFilter(parentType, memberType));
 		}
 
-		public ReflectionComparer Ignore(Type ignoredType)
+		public ReflectionComparer IgnoreType<TType>()
+		{
+			return AddFilter(new IgnoreByTypeFilter(typeof(TType)));
+		}
+
+		public ReflectionComparer IgnoreType(Type ignoredType)
 		{
 			return AddFilter(new IgnoreByTypeFilter(ignoredType));
 		}
@@ -299,10 +341,10 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		#region Helpers
 		private bool ShouldIgnore(object parent, FieldInfo field)
 		{
-			int count = m_Filters.Count;
+			int count = m_FieldFilters.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				AFilter filter = m_Filters[x];
+				IFieldFilter filter = m_FieldFilters[x];
 				if(filter.ShouldIgnore(parent, field))
 				{
 					return true;
@@ -313,10 +355,10 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 		private bool ShouldIgnore(object parent, PropertyInfo property)
 		{
-			int count = m_Filters.Count;
+			int count = m_PropertyFilters.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				AFilter filter = m_Filters[x];
+				IPropertyFilter filter = m_PropertyFilters[x];
 				if(filter.ShouldIgnore(parent, property))
 				{
 					return true;
@@ -327,10 +369,10 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 		private bool ShouldIgnore(object value)
 		{
-			int count = m_Filters.Count;
+			int count = m_ValueFilters.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				AFilter filter = m_Filters[x];
+				IValueFilter filter = m_ValueFilters[x];
 				if(filter.ShouldIgnore(value))
 				{
 					return true;
@@ -347,11 +389,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			}
 			int hash = value.GetHashCode();
 			return m_VisitedObjects.Add(hash);
-		}
-
-		private bool IsPrimitive(Type type)
-		{
-			return type.IsPrimitive || typeof(string).IsAssignableFrom(type);
 		}
 		#endregion
 	}
