@@ -1,5 +1,6 @@
 {
     "name": "ProceduralLevel.UnityPlugins.Comparer.Unity",
+    "rootNamespace": "ProceduralLevel.UnityPlugins.Comparer.Unity",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
