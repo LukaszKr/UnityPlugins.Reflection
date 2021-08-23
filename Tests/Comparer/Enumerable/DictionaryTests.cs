@@ -9,14 +9,14 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void BasicDictionary()
 		{
-			Dictionary<string, int> dictA = new Dictionary<string, int>();
-			dictA["a"] = 1;
+			Dictionary<string, int> left = new Dictionary<string, int>();
+			left["a"] = 1;
 
-			Dictionary<string, int> dictB = new Dictionary<string, int>();
-			dictB["a"] = 2;
-			dictB["key"] = 2;
+			Dictionary<string, int> right = new Dictionary<string, int>();
+			right["a"] = 2;
+			right["key"] = 2;
 
-			ObjectIssue diff = m_Comparer.Compare(dictA, dictB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), 1);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}

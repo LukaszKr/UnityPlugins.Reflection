@@ -18,44 +18,44 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void ArrayOfInts()
 		{
-			int[] arrayA = new int[] { 3, 2, 1 };
-			int[] arrayB = new int[] { 1, 2, 3 };
+			int[] left = new int[] { 3, 2, 1 };
+			int[] right = new int[] { 1, 2, 3 };
 
-			ObjectIssue diff = m_Comparer.Compare(arrayA, arrayB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}
 
 		[Test]
 		public void DifferentArrayLength()
 		{
-			int[] arrayA = new int[] { 1 };
-			int[] arrayB = new int[] { 2, 2 };
+			int[] left = new int[] { 1 };
+			int[] right = new int[] { 2, 2 };
 			
-			ObjectIssue diff = m_Comparer.Compare(arrayA, arrayB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
 		}
 
 		[Test]
 		public void NestedArrays()
 		{
-			int[][] arrayA = new int[1][];
-			int[][] arrayB = new int[1][];
-			arrayA[0] = new int[] { 1 };
-			arrayB[0] = new int[] { 2, 3 };
+			int[][] left = new int[1][];
+			int[][] right = new int[1][];
+			left[0] = new int[] { 1 };
+			right[0] = new int[] { 2, 3 };
 
-			ObjectIssue diff = m_Comparer.Compare(arrayA, arrayB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
 		}
 
 		[Test]
 		public void NestedClassArray()
 		{
-			NestedClass[][] arrayA = new NestedClass[1][];
-			NestedClass[][] arrayB = new NestedClass[1][];
-			arrayA[0] = new NestedClass[] { new NestedClass(1), new NestedClass(2) };
-			arrayB[0] = new NestedClass[] { new NestedClass(2) };
+			NestedClass[][] left = new NestedClass[1][];
+			NestedClass[][] right = new NestedClass[1][];
+			left[0] = new NestedClass[] { new NestedClass(1), new NestedClass(2) };
+			right[0] = new NestedClass[] { new NestedClass(2) };
 
-			ObjectIssue diff = m_Comparer.Compare(arrayA, arrayB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentLengthIssue));
 			TestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
 		}

@@ -4,6 +4,8 @@
 	{
 		public readonly ObjectIssue Parent;
 		public readonly string Key;
+		
+		public abstract string Name { get; }
 
 		public ADetectedIssue(ObjectIssue parent, string key)
 		{

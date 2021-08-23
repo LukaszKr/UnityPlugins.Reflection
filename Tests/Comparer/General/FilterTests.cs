@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ProceduralLevel.UnityPlugins.Comparer.Unity;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Tests
@@ -17,7 +16,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		}
 
 		[Test]
-		public void IgnoreType()
+		public void IgnoreByType()
 		{
 			m_Comparer.IgnoreType(typeof(int));
 			ObjectIssue diff = m_Comparer.Compare(1, 2);
@@ -35,13 +34,13 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		}
 
 		[Test]
-		public void IgnoreByName()
+		public void IgnoreByMemberName()
 		{
-			TestClass classA = new TestClass(1);
-			TestClass classB = new TestClass(2);
-			m_Comparer.IgnoreMember<TestClass>(nameof(classA.Value));
+			TestClass left = new TestClass(1);
+			TestClass right = new TestClass(2);
+			m_Comparer.IgnoreMember<TestClass>(nameof(left.Value));
 
-			ObjectIssue diff = m_Comparer.Compare(classA, classB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			Assert.IsNull(diff);
 		}
 	}

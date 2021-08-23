@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
@@ -10,35 +7,55 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 	{
 		private readonly TypeDifferenceDetector m_TypeDifference = new TypeDifferenceDetector();
 
+		private readonly List<IComparerHandler> m_Handlers = new List<IComparerHandler>();
 		private readonly List<AIssueDetector> m_Detectors = new List<AIssueDetector>();
 		private readonly List<IValueFilter> m_ValueFilters = new List<IValueFilter>();
-		private readonly List<IFieldFilter> m_FieldFilters = new List<IFieldFilter>();
-		private readonly List<IPropertyFilter> m_PropertyFilters = new List<IPropertyFilter>();
 
 		private readonly HashSet<int> m_VisitedObjects = new HashSet<int>();
 
-		public ReflectionComparer()
-		{
-			AddDetector(new ValueDifferenceDetector());
+		public readonly CompareFieldsHandler Fields;
+		public readonly ComparePropertiesHandler Properties;
 
-			AddFilter(new IgnoreAutomaticBackingFieldFilter());
+		public ReflectionComparer(bool setupDefaults = true)
+		{
+			Fields = new CompareFieldsHandler();
+			Properties = new ComparePropertiesHandler();
+
+			if(setupDefaults)
+			{
+				AddHandler(new CompareDictionaryHandler());
+				AddHandler(new CompareEnumerableHandler());
+
+				AddHandler(Fields);
+				AddHandler(Properties);
+
+				AddDetector(new ValueDifferenceDetector());
+
+				AddFilter(new IgnoreAutomaticBackingFieldFilter());
+			}
 		}
 
 		#region Compare
 		public ObjectIssue Compare(object left, object right)
 		{
-			try
+			m_VisitedObjects.Clear();
+			ObjectIssue diff = CompareObjects(null, "", left, right);
+			m_VisitedObjects.Clear();
+			return diff;
+		}
+
+		public bool Compare(ObjectIssue parent, string path, object left, object right)
+		{
+			if(CompareValues(parent, path, left, right))
 			{
-				return CompareObjects(null, "", left, right);
+				return true;
 			}
-			catch(Exception e)
+			else if(CanCompareObjects(left) && CanCompareObjects(right))
 			{
-				throw e;
+				ObjectIssue issue = CompareObjects(parent, path, left, right);
+				return issue != null;
 			}
-			finally
-			{
-				m_VisitedObjects.Clear();
-			}
+			return false;
 		}
 
 		private ObjectIssue CompareObjects(ObjectIssue parent, string path, object left, object right)
@@ -56,55 +73,16 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 				return null;
 			}
 
-			if(CompareDictonary(current, path, left as IDictionary, right as IDictionary))
-			{
-				parent?.Nodes.Add(current);
-				return current;
-			}
-			if(CompareEnumerable(current, path, left as IEnumerable, right as IEnumerable))
-			{
-				parent?.Nodes.Add(current);
-				return current;
-			}
-
+			int count = m_Handlers.Count;
 			bool foundDiff = false;
-			Type type = left.GetType();
 
-			FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-			int length = fields.Length;
-			for(int x = 0; x < length; ++x)
+			for(int x = 0; x < count; ++x)
 			{
-				FieldInfo field = fields[x];
-				if(ShouldIgnore(left, field) || ShouldIgnore(right, field))
+				IComparerHandler handler = m_Handlers[x];
+				foundDiff |= handler.Compare(this, current, path, left, right);
+				if(foundDiff && handler.Exclusive)
 				{
-					continue;
-				}
-
-				object leftValue = field.GetValue(left);
-				object rightValue = field.GetValue(right);
-				if(Compare(current, field.Name, leftValue, rightValue))
-				{
-					foundDiff = true;
-					continue;
-				}
-			}
-
-			PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-			length = properties.Length;
-			for(int x = 0; x < length; ++x)
-			{
-				PropertyInfo property = properties[x];
-				if(ShouldIgnore(left, property) || ShouldIgnore(right, property))
-				{
-					continue;
-				}
-
-				object leftValue = property.GetValue(left);
-				object rightValue = property.GetValue(right);
-				if(Compare(current, property.Name, leftValue, rightValue))
-				{
-					foundDiff = true;
-					continue;
+					break;
 				}
 			}
 
@@ -114,101 +92,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 				return current;
 			}
 			return null;
-		}
-
-		private bool CompareDictonary(ObjectIssue parent, string path, IDictionary left, IDictionary right)
-		{
-			if(left == null || right == null)
-			{
-				return false;
-			}
-
-			bool foundIssue = false;
-
-			int leftCount = left.Count;
-			int rightCount = right.Count;
-			if(leftCount != rightCount)
-			{
-				parent.Issues.Add(new DifferentLengthIssue(parent, path, leftCount, rightCount));
-				foundIssue = true;
-			}
-
-			foreach(object key in left.Keys)
-			{
-				object leftValue = left[key];
-				string keyPath = $"{path}[{key}]";
-				if(right.Contains(key))
-				{
-					object rightValue = right[key];
-					foundIssue |= Compare(parent, keyPath, leftValue, rightValue);
-				}
-				else
-				{
-					parent.Issues.Add(new DifferentValueIssue(parent, keyPath, leftValue, null));
-					foundIssue = true;
-				}
-			}
-
-			foreach(object key in right.Keys)
-			{
-				object rightValue = right[key];
-				if(!left.Contains(key))
-				{
-					string keyPath = $"{path}[{key}]";
-					parent.Issues.Add(new DifferentValueIssue(parent, keyPath, null, rightValue));
-					foundIssue = true;
-				}
-			}
-
-			return foundIssue;
-		}
-
-		private bool CompareEnumerable(ObjectIssue parent, string path, IEnumerable enumerableA, IEnumerable enumerableB)
-		{
-			if(enumerableA == null || enumerableB == null)
-			{
-				return false;
-			}
-
-			bool foundIssue = false;
-
-			IEnumerator leftEnumerator = enumerableA.GetEnumerator();
-			IEnumerator rightEnumerator = enumerableB.GetEnumerator();
-
-			int oldIssueCount = parent.Issues.Count;
-			int leftCount = 0;
-			int rightCount = 0;
-			do
-			{
-				bool leftProgressed = leftEnumerator.MoveNext();
-				if(leftProgressed)
-				{
-					++leftCount;
-				}
-				bool rightProgressed = rightEnumerator.MoveNext();
-				if(rightProgressed)
-				{
-					++rightCount;
-				}
-
-				if(leftCount != rightCount)
-				{
-					parent.Issues.Insert(oldIssueCount, new DifferentLengthIssue(parent, path, leftCount, rightCount));
-					return true;
-				}
-
-				if(!leftProgressed || !rightProgressed)
-				{
-					return foundIssue;
-				}
-
-				object leftValue = leftEnumerator.Current;
-				object rightValue = rightEnumerator.Current;
-				string elementPath = $"{path}[{leftCount-1}]";
-				foundIssue |= Compare(parent, elementPath, leftValue, rightValue);
-
-			}
-			while(true);
 		}
 
 		private bool CompareValues(ObjectIssue parent, string path, object left, object right)
@@ -232,19 +115,13 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			}
 			return foundIssue;
 		}
+		#endregion
 
-		private bool Compare(ObjectIssue parent, string path, object left, object right)
+		#region Handler
+		public ReflectionComparer AddHandler(IComparerHandler handler)
 		{
-			if(CompareValues(parent, path, left, right))
-			{
-				return true;
-			}
-			else if(CanCompareObjects(left) && CanCompareObjects(right))
-			{
-				ObjectIssue issue = CompareObjects(parent, path, left, right);
-				return issue != null;
-			}
-			return false;
+			m_Handlers.Add(handler);
+			return this;
 		}
 		#endregion
 
@@ -274,13 +151,13 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 		public ReflectionComparer AddFieldFilter(IFieldFilter fieldFilter)
 		{
-			m_FieldFilters.Add(fieldFilter);
+			Fields.Filters.Add(fieldFilter);
 			return this;
 		}
 
 		public ReflectionComparer AddPropertyFilter(IPropertyFilter propertyFilter)
 		{
-			m_PropertyFilters.Add(propertyFilter);
+			Properties.Filters.Add(propertyFilter);
 			return this;
 		}
 
@@ -339,34 +216,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		#endregion
 
 		#region Helpers
-		private bool ShouldIgnore(object parent, FieldInfo field)
-		{
-			int count = m_FieldFilters.Count;
-			for(int x = 0; x < count; ++x)
-			{
-				IFieldFilter filter = m_FieldFilters[x];
-				if(filter.ShouldIgnore(parent, field))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private bool ShouldIgnore(object parent, PropertyInfo property)
-		{
-			int count = m_PropertyFilters.Count;
-			for(int x = 0; x < count; ++x)
-			{
-				IPropertyFilter filter = m_PropertyFilters[x];
-				if(filter.ShouldIgnore(parent, property))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 		private bool ShouldIgnore(object value)
 		{
 			int count = m_ValueFilters.Count;
@@ -384,6 +233,11 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		private bool CanCompareObjects(object value)
 		{
 			if(value == null)
+			{
+				return true;
+			}
+			Type type = value.GetType();
+			if(type.IsPrimitive || typeof(string).IsAssignableFrom(type))
 			{
 				return true;
 			}

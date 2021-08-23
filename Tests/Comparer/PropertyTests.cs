@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ProceduralLevel.UnityPlugins.Comparer.Unity;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Tests
@@ -21,25 +22,40 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 			}
 		}
 
+		private class ExceptionThrowingProperty
+		{
+			public int Exception => throw new Exception();
+		}
+
+		[Test]
+		public void PropertyThatThrowsException()
+		{
+			ExceptionThrowingProperty left = new ExceptionThrowingProperty();
+			ExceptionThrowingProperty right = new ExceptionThrowingProperty();
+
+			ObjectIssue diff = m_Comparer.Compare(left, right);
+			TestHelper.AssertDiff(diff, typeof(ExceptionIssue));
+		}
+
 		[Test]
 		public void DifferenceInAutoField()
 		{
-			ClassWithAutoProperty a = new ClassWithAutoProperty();
-			a.AutoField = 2;
-			ClassWithAutoProperty b = new ClassWithAutoProperty();
-			b.AutoField = 1;
-			ObjectIssue diff = m_Comparer.Compare(a, b);
+			ClassWithAutoProperty left = new ClassWithAutoProperty();
+			left.AutoField = 2;
+			ClassWithAutoProperty right = new ClassWithAutoProperty();
+			right.AutoField = 1;
 
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 
 		[Test]
 		public void DifferenceInBackedField()
 		{
-			ClassWithBackingField a = new ClassWithBackingField(2);
-			ClassWithBackingField b = new ClassWithBackingField(1);
+			ClassWithBackingField left = new ClassWithBackingField(2);
+			ClassWithBackingField right = new ClassWithBackingField(1);
 
-			ObjectIssue diff = m_Comparer.Compare(a, b);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}
 	}

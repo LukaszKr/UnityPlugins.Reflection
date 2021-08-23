@@ -23,26 +23,26 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void DetectSharedObject()
 		{
-			RootClass rootA = new RootClass();
-			RootClass rootB = new RootClass();
-			rootA.Nested = new NestedClass();
-			rootB.Nested = rootA.Nested;
+			RootClass left = new RootClass();
+			RootClass right = new RootClass();
+			left.Nested = new NestedClass();
+			right.Nested = left.Nested;
 
-			m_Comparer.DetectSharedObject(rootA.Nested);
-			ObjectIssue diff = m_Comparer.Compare(rootA, rootB);
+			m_Comparer.DetectSharedObject(left.Nested);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(SharedObjectIssue));
 		}
 
 		[Test]
 		public void DetectDuplicatedSingleton()
 		{
-			RootClass rootA = new RootClass();
-			RootClass rootB = new RootClass();
-			rootA.Nested = new NestedClass();
-			rootB.Nested = new NestedClass();
+			RootClass left = new RootClass();
+			RootClass right = new RootClass();
+			left.Nested = new NestedClass();
+			right.Nested = new NestedClass();
 
-			m_Comparer.DetectSingleton(rootA.Nested);
-			ObjectIssue diff = m_Comparer.Compare(rootA, rootB);
+			m_Comparer.DetectSingleton(left.Nested);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DuplicatedSingletonIssue));
 		}
 	}

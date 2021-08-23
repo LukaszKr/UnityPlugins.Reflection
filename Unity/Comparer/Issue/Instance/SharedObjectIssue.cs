@@ -1,8 +1,11 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
-	public class SharedObjectIssue : ADetectedIssue
+	public class SharedObjectIssue : ADetectedIssue, IDebugValueIssue
 	{
 		public readonly object Value;
+
+		public override string Name => "Shared";
+		public string DebugValue => Value.ToString();
 
 		public SharedObjectIssue(ObjectIssue parent, string key, object value)
 			: base(parent, key)

@@ -9,10 +9,10 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void ListOfInts()
 		{
-			List<int> listA = new List<int>() { 1 };
-			List<int> listB = new List<int>() { 2, 2 };
+			List<int> left = new List<int>() { 1 };
+			List<int> right = new List<int>() { 2, 2 };
 
-			ObjectIssue diff = m_Comparer.Compare(listA, listB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), typeof(DifferentValueIssue));
 		}
 	}

@@ -13,15 +13,15 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		[Test]
 		public void TracksVisitedObjects()
 		{
-			CyclicRef cyclicA = new CyclicRef();
-			cyclicA.Cyclic = new CyclicRef();
-			cyclicA.Cyclic.Cyclic = cyclicA;
+			CyclicRef left = new CyclicRef();
+			left.Cyclic = new CyclicRef();
+			left.Cyclic.Cyclic = left;
 
-			CyclicRef cyclicB = new CyclicRef();
-			cyclicB.Cyclic = new CyclicRef();
-			cyclicB.Cyclic.Cyclic = cyclicB;
+			CyclicRef right = new CyclicRef();
+			right.Cyclic = new CyclicRef();
+			right.Cyclic.Cyclic = right;
 
-			ObjectIssue diff = m_Comparer.Compare(cyclicA, cyclicB);
+			ObjectIssue diff = m_Comparer.Compare(left, right);
 			Assert.IsNull(diff);
 		}
 	}

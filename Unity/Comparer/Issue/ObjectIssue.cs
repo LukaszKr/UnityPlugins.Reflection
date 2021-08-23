@@ -7,6 +7,8 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		public readonly List<ObjectIssue> Nodes = new List<ObjectIssue>();
 		public readonly List<ADetectedIssue> Issues = new List<ADetectedIssue>();
 
+		public override string Name => "Object";
+
 		public ObjectIssue(ObjectIssue parent, string key)
 			: base(parent, key)
 		{
