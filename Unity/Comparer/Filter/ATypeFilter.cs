@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public abstract class ATypeFilter : AFilter, IPropertyFilter, IFieldFilter
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class ReflectionComparer
 	{
@@ -110,7 +110,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		private bool CompareValues(ObjectIssue parent, string path, object left, object right)
 		{
 			bool foundIssue = false;
-			if(parent.TryAddIssue(m_TypeDifference.Detect(parent, path, left, right)))
+			if(m_TypeDifference.Compare(parent, path, left, right))
 			{
 				foundIssue = true;
 			}
@@ -123,8 +123,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			for(int x = 0; x < count; ++x)
 			{
 				AIssueDetector detector = m_Detectors[x];
-				ADetectedIssue issue = detector.Detect(parent, path, left, right);
-				foundIssue |= parent.TryAddIssue(issue);
+				foundIssue |= detector.Compare(parent, path, left, right);
 			}
 			return foundIssue;
 		}

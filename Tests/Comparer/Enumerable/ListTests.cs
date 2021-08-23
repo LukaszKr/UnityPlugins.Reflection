@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using ProceduralLevel.UnityPlugins.Comparer.Unity;
+using ProceduralLevel.UnityPlugins.Reflection.Unity;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Tests
+namespace ProceduralLevel.UnityPlugins.Reflection.Tests
 {
 	public class ListTests : AComparerTests
 	{

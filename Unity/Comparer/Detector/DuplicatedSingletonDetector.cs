@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class DuplicatedSingletonDetector : AIssueDetector
 	{
@@ -11,22 +11,23 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			m_SingletonType = singletonType;
 		}
 
-		public override ADetectedIssue Detect(ObjectIssue parent, string key, object a, object b)
+		public override bool Compare(ObjectIssue parent, string key, object a, object b)
 		{
 			if(a == null || b == null)
 			{
-				return null;
+				return false;
 			}
 
 			if(m_SingletonType != a.GetType())
 			{
-				return null;
+				return false;
 			}
 			if(!Equals(a, b))
 			{
-				return new DuplicatedSingletonIssue(parent, key, a.GetType(), b.GetType());
+				parent.Issues.Add(new DuplicatedSingletonIssue(parent, key, a.GetType(), b.GetType()));
+				return true;
 			}
-			return null;
+			return false;
 		}
 	}
 }

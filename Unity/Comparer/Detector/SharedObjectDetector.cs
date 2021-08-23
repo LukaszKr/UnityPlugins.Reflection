@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class SharedObjectDetector : AIssueDetector
 	{
@@ -11,21 +11,22 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			m_SharedType = sharedType;
 		}
 
-		public override ADetectedIssue Detect(ObjectIssue parent, string key, object a, object b)
+		public override bool Compare(ObjectIssue parent, string key, object a, object b)
 		{
 			if(a == null || b == null)
 			{
-				return null;
+				return false;
 			}
 			if(m_SharedType != a.GetType())
 			{
-				return null;
+				return false;
 			}
 			if(Equals(a, b))
 			{
-				return new SharedObjectIssue(parent, key, a);
+				parent.Issues.Add(new SharedObjectIssue(parent, key, a));
+				return true;
 			}
-			return null;
+			return false;
 		}
 	}
 }

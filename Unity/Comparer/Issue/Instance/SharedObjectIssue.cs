@@ -1,4 +1,4 @@
-﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+﻿namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class SharedObjectIssue : ADetectedIssue, IDebugValueIssue
 	{

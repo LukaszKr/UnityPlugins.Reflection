@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class ValueDifferenceDetector : AIssueDetector
 	{
-		public override ADetectedIssue Detect(ObjectIssue parent, string key, object a, object b)
+		public override bool Compare(ObjectIssue parent, string key, object a, object b)
 		{
 			Type type;
 			if(a == null)
 			{
 				if(b == null)
 				{
-					return null;
+					return false;
 				}
 				type = b.GetType();
 			}
@@ -23,17 +23,19 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			{
 				if(!Equals(a, b))
 				{
-					return new DifferentValueIssue(parent, key, a, b);
+					parent.Issues.Add(new DifferentValueIssue(parent, key, a, b));
+					return true;
 				}
 			}
 			else
 			{
 				if(a == null || b == null)
 				{
-					return new DifferentValueIssue(parent, key, a, b);
+					parent.Issues.Add(new DifferentValueIssue(parent, key, a, b));
+					return true;
 				}
 			}
-			return null;
+			return false;
 		}
 	}
 }

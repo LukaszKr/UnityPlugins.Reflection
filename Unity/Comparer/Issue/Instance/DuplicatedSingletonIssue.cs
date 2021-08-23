@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class DuplicatedSingletonIssue : ADetectedIssue, IDebugPairIssue
 	{

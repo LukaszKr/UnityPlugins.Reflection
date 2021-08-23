@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class CompareEnumerableHandler : ACompareHandler<IEnumerable>
 	{

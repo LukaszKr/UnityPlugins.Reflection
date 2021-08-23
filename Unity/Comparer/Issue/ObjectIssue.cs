@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class ObjectIssue : ADetectedIssue
 	{
@@ -12,16 +12,6 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		public ObjectIssue(ObjectIssue parent, string key)
 			: base(parent, key)
 		{
-		}
-
-		public bool TryAddIssue(ADetectedIssue issue)
-		{
-			if(issue != null)
-			{
-				Issues.Add(issue);
-				return true;
-			}
-			return false;
 		}
 
 		protected override string ToStringImpl()

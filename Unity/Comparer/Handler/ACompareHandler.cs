@@ -1,4 +1,4 @@
-﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+﻿namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public abstract class ACompareHandler<TObject> : IComparerHandler
 		where TObject : class

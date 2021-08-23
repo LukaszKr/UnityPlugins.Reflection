@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public interface IPropertyFilter
 	{

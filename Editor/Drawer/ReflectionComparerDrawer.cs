@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using ProceduralLevel.UnityPlugins.Common.Unity;
-using ProceduralLevel.UnityPlugins.Comparer.Unity;
+using ProceduralLevel.UnityPlugins.Reflection.Unity;
 using ProceduralLevel.UnityPlugins.ExtendedEditor.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Editor
+namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
 	public class ReflectionComparerDrawer
 	{

@@ -1,23 +1,24 @@
 ﻿using System;
 
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public class TypeDifferenceDetector : AIssueDetector
 	{
-		public override ADetectedIssue Detect(ObjectIssue parent, string path, object left, object right)
+		public override bool Compare(ObjectIssue parent, string path, object left, object right)
 		{
 			if(left == null || right == null)
 			{
-				return null;
+				return false;
 			}
 
 			Type leftType = left.GetType();
 			Type rightType = right.GetType();
 			if(leftType != rightType)
 			{
-				return new DifferentTypeIssue(parent, path, leftType, rightType);
+				parent.Issues.Add(new DifferentTypeIssue(parent, path, leftType, rightType));
+				return true;
 			}
-			return null;
+			return false;
 		}
 	}
 }

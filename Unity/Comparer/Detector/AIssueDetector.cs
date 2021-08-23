@@ -1,7 +1,7 @@
-﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+﻿namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public abstract class AIssueDetector
 	{
-		public abstract ADetectedIssue Detect(ObjectIssue parent, string key, object left, object right);
+		public abstract bool Compare(ObjectIssue parent, string key, object left, object right);
 	}
 }
