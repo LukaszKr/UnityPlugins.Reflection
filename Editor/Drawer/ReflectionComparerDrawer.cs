@@ -23,7 +23,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Editor
 		private ExtendedGUIStyle m_LabelStyle = new ExtendedGUIStyle("box", (s) =>
 		{
 			s.padding = new RectOffset();
-			s.alignment = TextAnchor.MiddleLeft;
+			s.alignment = TextAnchor.UpperLeft;
 			s.wordWrap = true;
 		});
 
@@ -78,7 +78,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Editor
 				}
 				else
 				{
-					DrawIssue(issue, oddRow);
+					DrawIssue(issue, issue.ToString(), oddRow);
 				}
 			}
 		}
@@ -105,20 +105,18 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Editor
 
 		private void DrawIssue(ADetectedIssue issue, IDebugValueIssue value, bool oddRow)
 		{
-			Rect rect = GetNextRect();
-			rect = DrawKey(rect, issue.Key, oddRow);
-			rect = DrawType(rect, issue.Type, oddRow);
-
-			DrawLabel(rect, value.DebugValue, m_ValueColor, oddRow);
+			DrawIssue(issue, value.DebugValue, oddRow);
 		}
 
-		private void DrawIssue(ADetectedIssue issue, bool oddRow)
+		private void DrawIssue(ADetectedIssue issue, string value, bool oddRow)
 		{
-			Rect rect = GetNextRect();
+			GUIContent content = new GUIContent(value);
+			float height = m_LabelStyle.Style.CalcHeight(content, m_Width);
+			Rect rect = GetNextRect(height);
 			rect = DrawKey(rect, issue.Key, oddRow);
 			rect = DrawType(rect, issue.Type, oddRow);
 
-			DrawLabel(rect, issue.ToString(), m_ValueColor, oddRow);
+			DrawLabel(rect, value, m_ValueColor, oddRow);
 		}
 
 		private Rect DrawKey(Rect rect, string key, bool oddRow)

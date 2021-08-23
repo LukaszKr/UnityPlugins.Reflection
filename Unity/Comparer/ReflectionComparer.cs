@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
@@ -33,6 +34,13 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 				AddFilter(new IgnoreAutomaticBackingFieldFilter());
 			}
+		}
+
+		public void SetupUnity()
+		{
+			IgnoreType(typeof(Mesh));
+			IgnoreType(typeof(Material));
+			IgnoreType(typeof(Texture));
 		}
 
 		#region Compare

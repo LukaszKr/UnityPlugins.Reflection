@@ -17,7 +17,7 @@
 		{
 			if(Parent != null)
 			{
-				return $"{Parent.GetPath()}/{Key}";
+				return $"{Parent.GetPath()}.{Key}";
 			}
 			return $"{Key}";
 		}
