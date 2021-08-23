@@ -6,7 +6,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 	{
 		public readonly Exception Exception;
 
-		public override string Name => "Exception";
+		public override string Type => "Exception";
 		public string DebugValue => Exception.ToString();
 
 		public ExceptionIssue(ObjectIssue parent, string key, Exception exception)

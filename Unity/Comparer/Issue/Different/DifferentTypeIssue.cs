@@ -7,7 +7,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		public readonly Type LeftType;
 		public readonly Type RightType;
 
-		public override string Name => "Type";
+		public override string Type => "Type";
 		public string DebugLeft => LeftType.Name;
 		public string DebugRight => RightType.Name;
 

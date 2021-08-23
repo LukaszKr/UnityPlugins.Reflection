@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProceduralLevel.UnityPlugins.Common.Unity;
 using ProceduralLevel.UnityPlugins.Comparer.Unity;
 using ProceduralLevel.UnityPlugins.ExtendedEditor.Editor;
 using UnityEditor;
@@ -34,15 +35,17 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Editor
 		protected override void Initialize()
 		{
 			ReflectionComparer comparer = new ReflectionComparer();
-			List<int> listA = new List<int>() { 1, 2 };
-			List<int> listB = new List<int>() { 2, 1, 3 };
+			List<int> listA = new List<int>() { 1, 2, 3, 2, 5, 2, 2, 3, 4, 6, 8, 9 };
+			List<int> listB = new List<int>() { 2, 1, 3, 4, 1, 4, 4, 2, 5, 4, 2, 2, 2 };
 			m_Diff = comparer.Compare(listA, listB);
 		}
 
 		protected override void Draw()
 		{
 			DrawUnityObjectSelector();
-			m_Drawer.Draw(GUILayoutUtility.GetRect(Width, Height), m_Diff);
+			Rect rect = GUILayoutUtility.GetRect(Width, Height);
+			rect = rect.CutBottom(rect.y).A;
+			m_Drawer.Draw(rect, m_Diff);
 		}
 
 		private void DrawUnityObjectSelector()

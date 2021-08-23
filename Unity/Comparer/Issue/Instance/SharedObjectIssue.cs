@@ -4,7 +4,7 @@
 	{
 		public readonly object Value;
 
-		public override string Name => "Shared";
+		public override string Type => "Shared";
 		public string DebugValue => Value.ToString();
 
 		public SharedObjectIssue(ObjectIssue parent, string key, object value)

@@ -73,6 +73,11 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 				return null;
 			}
 
+			if(IsPrimitive(left.GetType()))
+			{
+				return null;
+			}
+
 			int count = m_Handlers.Count;
 			bool foundDiff = false;
 
@@ -230,6 +235,11 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 			return false;
 		}
 
+		private bool IsPrimitive(Type type)
+		{
+			return (type.IsPrimitive || typeof(string).IsAssignableFrom(type));
+		}
+
 		private bool CanCompareObjects(object value)
 		{
 			if(value == null)
@@ -237,7 +247,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 				return true;
 			}
 			Type type = value.GetType();
-			if(type.IsPrimitive || typeof(string).IsAssignableFrom(type))
+			if(IsPrimitive(type))
 			{
 				return true;
 			}

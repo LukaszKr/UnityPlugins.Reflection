@@ -6,7 +6,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 		public readonly Type LeftSingleton;
 		public readonly Type RightSingleton;
 
-		public override string Name => "Singleton";
+		public override string Type => "Singleton";
 		public string DebugLeft => LeftSingleton.Name;
 		public string DebugRight => RightSingleton.Name;
 
