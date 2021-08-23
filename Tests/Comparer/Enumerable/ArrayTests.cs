@@ -30,7 +30,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Tests
 		{
 			int[] left = new int[] { 1 };
 			int[] right = new int[] { 2, 2 };
-			
+
 			ObjectIssue diff = m_Comparer.Compare(left, right);
 			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
 		}

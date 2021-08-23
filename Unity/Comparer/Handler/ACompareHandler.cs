@@ -17,6 +17,5 @@
 		}
 
 		protected abstract bool CompareImpl(ReflectionComparer comparer, ObjectIssue parent, string path, TObject left, TObject right);
-
 	}
 }

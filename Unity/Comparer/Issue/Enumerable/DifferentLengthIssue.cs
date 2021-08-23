@@ -9,7 +9,7 @@
 		public string DebugLeft => LeftLength.ToString();
 		public string DebugRight => RightLength.ToString();
 
-		public DifferentLengthIssue(ObjectIssue parent, string key, int leftLength, int rightLength) 
+		public DifferentLengthIssue(ObjectIssue parent, string key, int leftLength, int rightLength)
 			: base(parent, key)
 		{
 			LeftLength = leftLength;

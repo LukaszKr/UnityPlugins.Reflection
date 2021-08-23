@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace ProceduralLevel.UnityPlugins.Comparer.Unity
+﻿namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 {
 	public abstract class AIssueDetector
 	{
