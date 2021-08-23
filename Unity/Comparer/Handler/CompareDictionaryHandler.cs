@@ -39,7 +39,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 				object rightValue = right[key];
 				if(!left.Contains(key))
 				{
-					string keyPath = $"{path}[{key}]";
+					string keyPath = $"[{key}]";
 					parent.Issues.Add(new DifferentValueIssue(parent, keyPath, null, rightValue));
 					foundIssue = true;
 				}

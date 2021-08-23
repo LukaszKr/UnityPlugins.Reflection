@@ -31,7 +31,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 				if(leftCount != rightCount)
 				{
-					parent.Issues.Insert(oldIssueCount, new DifferentLengthIssue(parent, path, leftCount, rightCount));
+					parent.Issues.Insert(oldIssueCount, new DifferentLengthIssue(parent, "Length", leftCount, rightCount));
 					return true;
 				}
 
@@ -42,7 +42,7 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Unity
 
 				object leftValue = leftEnumerator.Current;
 				object rightValue = rightEnumerator.Current;
-				string elementPath = $"{path}[{leftCount-1}]";
+				string elementPath = $"[{leftCount-1}]";
 				foundIssue |= comparer.Compare(parent, elementPath, leftValue, rightValue);
 			}
 			while(true);

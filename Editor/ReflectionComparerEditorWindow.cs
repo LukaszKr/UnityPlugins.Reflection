@@ -35,8 +35,8 @@ namespace ProceduralLevel.UnityPlugins.Comparer.Editor
 		protected override void Initialize()
 		{
 			ReflectionComparer comparer = new ReflectionComparer();
-			List<int> listA = new List<int>() { 1, 2, 3, 2, 5, 2, 2, 3, 4, 6, 8, 9 };
-			List<int> listB = new List<int>() { 2, 1, 3, 4, 1, 4, 4, 2, 5, 4, 2, 2, 2 };
+			List<object> listA = new List<object>() { 1, 2, 3, 2, 5, 2, 2, 3, 4, 6, 8, 9, new List<object>() { 1, 2 } };
+			List<object> listB = new List<object>() { 2, 1, 3, 4, 1, 4, 4, 2, 5, 4, 2, 2, new List<object>() { 2, 3 }, 2 };
 			m_Diff = comparer.Compare(listA, listB);
 		}
 
