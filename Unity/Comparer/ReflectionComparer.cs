@@ -47,7 +47,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		public ObjectIssue Compare(object left, object right)
 		{
 			m_VisitedObjects.Clear();
-			ObjectIssue diff = CompareObjects(null, "", left, right);
+			ObjectIssue diff = CompareObjects(null, ".", left, right);
 			m_VisitedObjects.Clear();
 			return diff;
 		}
@@ -115,7 +115,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				foundIssue = true;
 			}
 
-			if(ShouldIgnore(left) || ShouldIgnore(right))
+			if(m_ValueFilters.ShouldIgnore(left) || m_ValueFilters.ShouldIgnore(right))
 			{
 				return foundIssue;
 			}
@@ -228,20 +228,6 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		#endregion
 
 		#region Helpers
-		private bool ShouldIgnore(object value)
-		{
-			int count = m_ValueFilters.Count;
-			for(int x = 0; x < count; ++x)
-			{
-				IValueFilter filter = m_ValueFilters[x];
-				if(filter.ShouldIgnore(value))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 		private bool IsPrimitive(Type type)
 		{
 			return (type.IsPrimitive || typeof(string).IsAssignableFrom(type));

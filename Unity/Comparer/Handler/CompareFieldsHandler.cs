@@ -21,7 +21,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 			for(int x = 0; x < length; ++x)
 			{
 				FieldInfo field = fields[x];
-				if(ShouldIgnore(left, field) || ShouldIgnore(right, field))
+				if(Filters.ShouldIgnore(left, field) || Filters.ShouldIgnore(right, field))
 				{
 					continue;
 				}
@@ -42,20 +42,6 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				}
 			}
 			return foundDiff;
-		}
-
-		private bool ShouldIgnore(object parent, FieldInfo field)
-		{
-			int count = Filters.Count;
-			for(int x = 0; x < count; ++x)
-			{
-				IFieldFilter filter = Filters[x];
-				if(filter.ShouldIgnore(parent, field))
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

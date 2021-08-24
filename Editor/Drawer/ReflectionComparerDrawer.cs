@@ -52,7 +52,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 
 		private void Draw(ObjectIssue diff)
 		{
-			DrawLabel(GetNextRect(), diff.GetPath(), m_ObjectColor, false);
+			DrawLabel(GetNextRect(), diff.Key, m_ObjectColor, false);
 			++m_Depth;
 
 			Draw(diff.Issues);

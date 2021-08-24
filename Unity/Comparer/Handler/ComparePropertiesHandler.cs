@@ -35,7 +35,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 						continue;
 					}
 				}
-				if(ShouldIgnore(left, property) || ShouldIgnore(right, property))
+				if(Filters.ShouldIgnore(left, property) || Filters.ShouldIgnore(right, property))
 				{
 					continue;
 				}
@@ -57,20 +57,5 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 			}
 			return foundDiff;
 		}
-
-		private bool ShouldIgnore(object parent, PropertyInfo property)
-		{
-			int count = Filters.Count;
-			for(int x = 0; x < count; ++x)
-			{
-				IPropertyFilter filter = Filters[x];
-				if(filter.ShouldIgnore(parent, property))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 	}
 }
