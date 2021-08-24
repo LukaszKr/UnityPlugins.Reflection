@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using ProceduralLevel.UnityPlugins.Reflection.Unity;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Tests
+namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 {
-	public static class TestHelper
+	public static class ComparerTestHelper
 	{
 		public static void AssertDiff(ObjectIssue diff, Type type, int expectedCount)
 		{

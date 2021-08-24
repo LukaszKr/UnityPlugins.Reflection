@@ -25,7 +25,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 			m_Comparer.DetectSharedObject(left.Nested);
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(SharedObjectIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(SharedObjectIssue));
 		}
 
 		[Test]
@@ -38,7 +38,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 			m_Comparer.DetectSingleton(left.Nested);
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DuplicatedSingletonIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DuplicatedSingletonIssue));
 		}
 	}
 }

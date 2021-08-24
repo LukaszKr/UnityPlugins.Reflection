@@ -43,7 +43,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
 			Assert.AreEqual(1, diff.Nodes.Count);
-			TestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
 		}
 
 		[Test]
@@ -61,7 +61,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 			ObjectIssue diff = m_Comparer.Compare(m_Left, m_Right);
 			Assert.AreEqual(1, diff.Nodes.Count);
-			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue));
 		}
 
 		[Test]
@@ -71,7 +71,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 			ObjectIssue diff = m_Comparer.Compare(m_Left, m_Right);
 			Assert.AreEqual(0, diff.Nodes.Count);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 	}
 }

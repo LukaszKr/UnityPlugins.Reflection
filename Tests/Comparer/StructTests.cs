@@ -22,7 +22,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			TestStruct right = new TestStruct(2);
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 	}
 }

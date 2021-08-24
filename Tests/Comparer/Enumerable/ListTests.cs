@@ -13,7 +13,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			List<int> right = new List<int>() { 2, 2 };
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), typeof(DifferentValueIssue));
 		}
 	}
 }

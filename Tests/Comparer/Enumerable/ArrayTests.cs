@@ -22,7 +22,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			int[] right = new int[] { 1, 2, 3 };
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}
 
 		[Test]
@@ -32,7 +32,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			int[] right = new int[] { 2, 2 };
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
 		}
 
 		[Test]
@@ -44,7 +44,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			right[0] = new int[] { 2, 3 };
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
+			ComparerTestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentValueIssue), typeof(DifferentLengthIssue));
 		}
 
 		[Test]
@@ -56,8 +56,8 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			right[0] = new NestedClass[] { new NestedClass(2) };
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentLengthIssue));
-			TestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff.Nodes[0], typeof(DifferentLengthIssue));
+			ComparerTestHelper.AssertDiff(diff.Nodes[0].Nodes[0], typeof(DifferentValueIssue));
 		}
 	}
 }

@@ -34,7 +34,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			ExceptionThrowingProperty right = new ExceptionThrowingProperty();
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(ExceptionIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(ExceptionIssue));
 		}
 
 		[Test]
@@ -46,7 +46,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			right.AutoField = 1;
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue));
 		}
 
 		[Test]
@@ -56,7 +56,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			ClassWithBackingField right = new ClassWithBackingField(1);
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}
 	}
 }

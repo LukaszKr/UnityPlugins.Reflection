@@ -17,8 +17,8 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			right["key"] = 2;
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
-			TestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), 1);
-			TestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentLengthIssue), 1);
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentValueIssue), 2);
 		}
 	}
 }

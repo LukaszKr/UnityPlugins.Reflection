@@ -30,7 +30,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 			m_Comparer.IgnoreType(typeof(int));
 
 			ObjectIssue diff = m_Comparer.Compare(1, "test");
-			TestHelper.AssertDiff(diff, typeof(DifferentTypeIssue));
+			ComparerTestHelper.AssertDiff(diff, typeof(DifferentTypeIssue));
 		}
 
 		[Test]
