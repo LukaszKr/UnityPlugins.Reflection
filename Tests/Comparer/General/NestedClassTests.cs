@@ -7,7 +7,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 	{
 		private class RootClass
 		{
-			public object Value;
+			public object Value = null;
 			public NestedClass Nested = new NestedClass();
 		}
 

@@ -12,7 +12,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 
 		private class NestedClass
 		{
-			public int Value;
+			public int Value = 0;
 		}
 
 		[Test]
