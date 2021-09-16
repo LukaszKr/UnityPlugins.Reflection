@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ProceduralLevel.UnityPlugins.Common.Unity;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,14 +15,27 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 
 		protected override void OnDraw(object obj, FieldInfo field)
 		{
-			Rect line = Layout.GetLine();
 
 			object inspected = field.GetValue(obj);
-			Type type = inspected.GetType();
-			EditorGUI.LabelField(line, $"{type.Name}");
+			Type inspectedType;
+
+			if(inspected == null)
+			{
+				inspectedType = field.FieldType;
+				EditorGUI.LabelField(Layout.GetLine(), $"{inspectedType.Name}");
+				if(GUI.Button(Layout.GetLine(), "Create"))
+				{
+					inspected = Activator.CreateInstance(field.FieldType);
+					field.SetValue(obj, inspected);
+				}
+				return;
+			}
+			
+			inspectedType = inspected.GetType();
+			EditorGUI.LabelField(Layout.GetLine(), $"{inspectedType.Name}");
 
 
-			FieldInfo[] fields = Inspector.GetFields(type);
+			FieldInfo[] fields = Inspector.GetFields(inspectedType);
 			for(int x = 0; x < fields.Length; ++x)
 			{
 				FieldInfo inspectedField = fields[x];

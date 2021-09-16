@@ -1,20 +1,62 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
 	public static class AssemblyHelper
 	{
-		public static Type FindFirstMatching(string typeName)
+		public static List<Type> GetAllAssignableTo<TBaseClass>()
 		{
+			Type baseType = typeof(TBaseClass);
+
+			List<Type> validTypes = new List<Type>();
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-			int assemblyCount = assemblies.Length;
-			for(int x = 0; x < assemblyCount; ++x)
+			for(int x = 0; x < assemblies.Length; ++x)
 			{
 				Assembly assembly = assemblies[x];
 				Type[] types = assembly.GetTypes();
-				int typeCount = types.Length;
-				for(int y = 0; y < typeCount; ++y)
+				for(int y = 0; y < types.Length; ++y)
+				{
+					Type type = types[y];
+					if(baseType.IsAssignableFrom(type))
+					{
+						validTypes.Add(type);
+					}
+				}
+			}
+			return validTypes;
+		}
+
+		public static List<Type> GetAllWithAttribute<TAttribute>()
+			where TAttribute : Attribute
+		{
+			List<Type> validTypes = new List<Type>();
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for(int x = 0; x < assemblies.Length; ++x)
+			{
+				Assembly assembly = assemblies[x];
+				Type[] types = assembly.GetTypes();
+				for(int y = 0; y < types.Length; ++y)
+				{
+					Type type = types[y];
+					if(type.GetCustomAttribute<TAttribute>() != null)
+					{
+						validTypes.Add(type);
+					}
+				}
+			}
+			return validTypes;
+		}
+
+		public static Type FindFirstMatching(string typeName)
+		{
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for(int x = 0; x < assemblies.Length; ++x)
+			{
+				Assembly assembly = assemblies[x];
+				Type[] types = assembly.GetTypes();
+				for(int y = 0; y < types.Length; ++y)
 				{
 					Type type = types[y];
 					if(type.Name == typeName)

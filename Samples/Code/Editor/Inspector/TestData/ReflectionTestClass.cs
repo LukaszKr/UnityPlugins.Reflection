@@ -15,6 +15,8 @@
 		public double Double = 145.12390;
 		public string String = "Hello World";
 
+		public TestClassA NullField = null;
+
 		//public int[] PrimitiveArray = new int[1];
 		//public List<int> PrimitiveList = new List<int>();
 
