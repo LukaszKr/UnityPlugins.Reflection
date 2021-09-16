@@ -17,7 +17,7 @@
 
 		public TestClassA NullField = null;
 
-		//public int[] PrimitiveArray = new int[1];
+		public int[] PrimitiveArray = new int[1];
 		//public List<int> PrimitiveList = new List<int>();
 
 		//public ReflectionNestedTestClass NestedClass = new ReflectionNestedTestClass();

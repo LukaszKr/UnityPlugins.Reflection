@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ProceduralLevel.UnityPlugins.Common.Logic;
+using ProceduralLevel.UnityPlugins.Reflection.Unity;
 using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
@@ -17,29 +18,21 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 
 		public ReflectionInspector()
 		{
-			Add(new ByteReflectionDrawer());
-			Add(new SByteReflectionDrawer());
-			Add(new UShortReflectionDrawer());
-			Add(new ShortReflectionDrawer());
-			Add(new UIntReflectionDrawer());
-			Add(new IntReflectionDrawer());
-			Add(new ULongReflectionDrawer());
-			Add(new LongReflectionDrawer());
-
-			Add(new FloatReflectionDrawer());
-			Add(new DoubleReflectionDrawer());
-
-			Add(new BoolReflectionDrawer());
-			Add(new StringReflectionDrawer());
+			List<Type> types = AssemblyHelper.GetAllWithAttribute<CustomReflectionDrawerAttribute>();
+			int count = types.Count;
+			for(int x = 0; x < count; ++x)
+			{
+				Type type = types[x];
+				AReflectionDrawer drawer = (AReflectionDrawer)Activator.CreateInstance(type);
+				Add(drawer);
+			}
 
 			Add(new ObjectReflectionDrawer());
 		}
 
-		private TReflectionDrawer Add<TReflectionDrawer>(TReflectionDrawer drawer)
-			where TReflectionDrawer : AReflectionDrawer
+		private void Add(AReflectionDrawer drawer)
 		{
 			_builtInDrawers.Add(drawer);
-			return drawer;
 		}
 
 		public void DrawLayout(object inspectedObject, FieldInfo field, float width)

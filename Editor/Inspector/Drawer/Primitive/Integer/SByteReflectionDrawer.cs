@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
+	[CustomReflectionDrawer]
 	public class SByteReflectionDrawer : AKeyValueReflectionDrawer<sbyte>
 	{
 		protected override sbyte OnDraw(Rect rect, string label, sbyte current)

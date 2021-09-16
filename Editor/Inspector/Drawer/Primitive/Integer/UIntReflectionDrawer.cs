@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
+	[CustomReflectionDrawer]
 	public class UIntReflectionDrawer : AKeyValueReflectionDrawer<uint>
 	{
 		protected override uint OnDraw(Rect rect, string label, uint current)
