@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using ProceduralLevel.UnityPlugins.Common.Unity;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,36 +12,35 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 			return !type.IsPrimitive && !type.IsValueType && type != typeof(string);
 		}
 
-		protected override void OnDraw(object obj, FieldInfo field)
+		protected override object OnDraw(string label, object value, Type type)
 		{
-
-			object inspected = field.GetValue(obj);
-			Type inspectedType;
-
-			if(inspected == null)
+			if(value == null)
 			{
-				inspectedType = field.FieldType;
-				EditorGUI.LabelField(Layout.GetLine(), $"{inspectedType.Name}");
+				EditorGUI.LabelField(Layout.GetLine(), $"{type.Name}");
 				if(GUI.Button(Layout.GetLine(), "Create"))
 				{
-					inspected = Activator.CreateInstance(field.FieldType);
-					field.SetValue(obj, inspected);
+					value = Activator.CreateInstance(type);
 				}
-				return;
 			}
-			
-			inspectedType = inspected.GetType();
-			EditorGUI.LabelField(Layout.GetLine(), $"{inspectedType.Name}");
-
-
-			FieldInfo[] fields = Inspector.GetFields(inspectedType);
-			for(int x = 0; x < fields.Length; ++x)
+			else
 			{
-				FieldInfo inspectedField = fields[x];
-				Type inspectedFieldType = inspectedField.FieldType;
-				AReflectionDrawer drawer = Inspector.GetDrawer(inspectedFieldType);
-				drawer.Draw(Inspector, inspected, inspectedField);
+				Type inspectedType = value.GetType();
+				EditorGUI.LabelField(Layout.GetLine(), $"{inspectedType.Name}");
+
+
+				Layout.StartIndent();
+				FieldInfo[] fields = Inspector.GetFields(inspectedType);
+				for(int x = 0; x < fields.Length; ++x)
+				{
+					FieldInfo inspectedField = fields[x];
+					Type inspectedFieldType = inspectedField.FieldType;
+					AReflectionDrawer drawer = Inspector.GetDrawer(inspectedFieldType);
+					drawer.Draw(Inspector, value, inspectedField);
+				}
+				Layout.EndIndent();
 			}
+
+			return value;
 		}
 	}
 }

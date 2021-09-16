@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using ProceduralLevel.UnityPlugins.Common.Logic;
 using ProceduralLevel.UnityPlugins.Reflection.Unity;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
@@ -13,8 +14,9 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 
 		public readonly ReflectionInspectorLayout Layout = new ReflectionInspectorLayout();
 
-		private readonly List<AReflectionDrawer> _builtInDrawers = new List<AReflectionDrawer>();
-		private readonly NotSupportedReflectionDrawer _notSupportedDrawer = new NotSupportedReflectionDrawer();
+		private readonly List<AReflectionDrawer> m_Drawers = new List<AReflectionDrawer>();
+		private readonly NotSupportedReflectionDrawer m_NotSupportedDrawer = new NotSupportedReflectionDrawer();
+		private readonly ObjectReflectionDrawer m_ObjectDrawer = new ObjectReflectionDrawer();
 
 		public ReflectionInspector()
 		{
@@ -26,48 +28,41 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 				AReflectionDrawer drawer = (AReflectionDrawer)Activator.CreateInstance(type);
 				Add(drawer);
 			}
-
 			Add(new ObjectReflectionDrawer());
 		}
 
 		private void Add(AReflectionDrawer drawer)
 		{
-			_builtInDrawers.Add(drawer);
+			m_Drawers.Add(drawer);
 		}
 
-		public void DrawLayout(object inspectedObject, FieldInfo field, float width)
+		public TValue DrawLayout<TValue>(string label, TValue obj, float width)
 		{
-			Rect rect = Draw(inspectedObject, field, width);
-			GUILayoutUtility.GetRect(rect.width, rect.height);
+			TValue result = Draw(label, obj, width);
+			GUILayoutUtility.GetRect(Layout.Current.width, Layout.Current.height);
+			return result;
 		}
 
-		public Rect Draw(object inspectedObject, FieldInfo field, float width)
+		public TValue Draw<TValue>(string label, TValue obj, float width)
 		{
-			Assert.IsNotNull(inspectedObject);
 			Layout.Start(width);
 
-			Type type = inspectedObject.GetType();
-			Assert.IsTrue(!type.IsPrimitive);
-			Assert.IsTrue(!type.IsValueType);
-
-			AReflectionDrawer drawer = GetDrawer(type);
-			drawer.Draw(this, inspectedObject, field);
-
-			return Layout.Current;
+			AReflectionDrawer drawer = GetDrawer(typeof(TValue));
+			return (TValue)drawer.Draw(this, label, obj, typeof(TValue));
 		}
 
 		public AReflectionDrawer GetDrawer(Type type)
 		{
-			int count = _builtInDrawers.Count;
+			int count = m_Drawers.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				AReflectionDrawer drawer = _builtInDrawers[x];
+				AReflectionDrawer drawer = m_Drawers[x];
 				if(drawer.CanDraw(type))
 				{
 					return drawer;
 				}
 			}
-			return _notSupportedDrawer;
+			return m_NotSupportedDrawer;
 		}
 
 		public FieldInfo[] GetFields(Type type)

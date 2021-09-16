@@ -15,9 +15,17 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 		public void Draw(ReflectionInspector inspector, object obj, FieldInfo field)
 		{
 			m_Inspector = inspector;
-			OnDraw(obj, field);
+			object inspected = field.GetValue(obj);
+			inspected = OnDraw(field.Name, inspected, field.FieldType);
+			field.SetValue(obj, inspected);
 		}
 
-		protected abstract void OnDraw(object obj, FieldInfo field);
+		public object Draw(ReflectionInspector inspector, string label, object value, Type type)
+		{
+			m_Inspector = inspector;
+			return OnDraw(label, value, type);
+		}
+
+		protected abstract object OnDraw(string label, object value, Type type);
 	}
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using ProceduralLevel.UnityPlugins.Common.Editor;
+﻿using ProceduralLevel.UnityPlugins.Common.Editor;
 using ProceduralLevel.UnityPlugins.Reflection.Editor;
 using UnityEditor;
 
@@ -27,9 +25,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Samples.Editor
 
 		protected override void Draw()
 		{
-			Type type = GetType();
-			FieldInfo field = type.GetField(nameof(m_TestClass), BindingFlags.Instance | BindingFlags.NonPublic);
-			ReflectionInspector.Instance.DrawLayout(this, field, Width);
+			m_TestClass = ReflectionInspector.Instance.DrawLayout("Test Field", m_TestClass, Width);
 			EditorGUILayout.LabelField("Label After Inspector");
 		}
 	}

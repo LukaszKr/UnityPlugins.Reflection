@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using ProceduralLevel.UnityPlugins.Common.Unity;
+using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
 	public class ReflectionInspectorLayout
 	{
-		public static float LineHeight = 20f;
-		public static float LineMargin = 4f;
+		public static float LineHeight = 18f;
+		public static float LineMargin = 3f;
+		public static float IndentSize = 20f;
 
 		private Rect _current;
 
@@ -14,6 +16,16 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 		public void Start(float width)
 		{
 			_current = new Rect(0f, 0f, width, 0f);
+		}
+
+		public void StartIndent()
+		{
+			_current = _current.CutLeft(IndentSize).B;
+		}
+
+		public void EndIndent()
+		{
+			_current = _current.AddLeft(IndentSize);
 		}
 
 		public Rect GetLine()

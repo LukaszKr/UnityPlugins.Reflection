@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,10 +11,16 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 			return true;
 		}
 
-		protected override void OnDraw(object obj, FieldInfo field)
+		protected override object OnDraw(string label, object value, Type type)
+		{
+			DrawLabel(value?.GetType());
+			return value;
+		}
+
+		private void DrawLabel(Type type)
 		{
 			Rect line = Layout.GetLine();
-			EditorGUI.LabelField(line, $"{field.FieldType} currently has no registered drawer.");
+			EditorGUI.LabelField(line, $"{type?.Name} currently has no registered drawer.");
 		}
 	}
 }
