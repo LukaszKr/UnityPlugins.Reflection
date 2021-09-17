@@ -8,7 +8,10 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 	{
 		public static List<Type> GetAllAssignableTo<TBaseClass>()
 		{
-			Type baseType = typeof(TBaseClass);
+			return GetAllAssignableTo(typeof(TBaseClass));
+		}
+		public static List<Type> GetAllAssignableTo(Type baseType)
+		{
 
 			List<Type> validTypes = new List<Type>();
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
