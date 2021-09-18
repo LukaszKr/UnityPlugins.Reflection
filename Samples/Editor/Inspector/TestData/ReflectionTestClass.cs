@@ -1,4 +1,6 @@
-﻿namespace ProceduralLevel.UnityPlugins.Reflection.Samples.Editor
+﻿using System.Collections.Generic;
+
+namespace ProceduralLevel.UnityPlugins.Reflection.Samples.Editor
 {
 	public class ReflectionTestClass
 	{
@@ -18,7 +20,8 @@
 		public GroundUnit NullField = null;
 
 		public int[] PrimitiveArray = new int[1];
-		public AUnit[] BaseArray = new AUnit[3];
+		public AUnit[] Array = new AUnit[1];
+		public List<AUnit> List = new List<AUnit>();
 		//public List<int> PrimitiveList = new List<int>();
 
 		//public ReflectionNestedTestClass NestedClass = new ReflectionNestedTestClass();

@@ -1,35 +1,30 @@
 ﻿using System;
-using UnityEditor;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
 	[CustomReflectionDrawer]
-	public class ArrayReflectionDrawer : AReflectionDrawer
+	public class ArrayReflectionDrawer : AListReflectionDrawer<Array>
 	{
+		protected override Type GetElementType(Type listType)
+		{
+			return listType.GetElementType();
+		}
+
 		public override bool CanDraw(Type type)
 		{
 			return type.IsArray;
 		}
 
-		protected override object OnDraw(string label, object value, Type type)
+		protected override Array SetSize(Type elementType, Array current, int newSize)
 		{
-			Array array = (Array)value;
-			Type elementType = type.GetElementType();
-
-			int length = array.Length;
-			EditorGUI.LabelField(Layout.GetLine(), $"{label}({length}) | {elementType.Name}");
-
-			Layout.StartIndent();
-			for(int x = 0; x < length; ++x)
+			Array newArray = Array.CreateInstance(elementType, newSize);
+			int currentSize = current.Length;
+			int copySize = Math.Min(currentSize, newSize);
+			for(int x = 0; x < copySize; ++x)
 			{
-				object element = array.GetValue(x);
-				AReflectionDrawer drawer = Inspector.GetDrawer(elementType);
-				element = drawer.Draw(Inspector, $"[{x}]", element, elementType);
-				array.SetValue(element, x);
+				newArray.SetValue(current.GetValue(x), x);
 			}
-			Layout.EndIndent();
-
-			return value;
+			return newArray;
 		}
 	}
 }

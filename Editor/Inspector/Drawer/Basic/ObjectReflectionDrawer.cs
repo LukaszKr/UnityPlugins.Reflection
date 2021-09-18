@@ -35,7 +35,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 				List<Type> types = TypeProvider.GetConstructableFor(type);
 				if(types.Count == 1)
 				{
-					if(GUI.Button(Layout.GetLine(), $"Create {types[0].Name}"))
+					if(GUI.Button(Layout.GetLine(), $"{types[0].Name}"))
 					{
 						value = Activator.CreateInstance(types[0]);
 					}
@@ -43,7 +43,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 				else
 				{
 					Type current = null;
-					current = m_TypePicker.Pick(Layout.GetLine(), "Create", current, types);
+					current = m_TypePicker.Pick(Layout.GetLine(), "", current, types);
 					if(current != null)
 					{
 						value = Activator.CreateInstance(current);
