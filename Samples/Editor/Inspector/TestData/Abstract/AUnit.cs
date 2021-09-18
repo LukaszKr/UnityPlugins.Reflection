@@ -1,7 +1,7 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Reflection.Samples.Editor
 {
-	public abstract class ABaseClass
+	public abstract class AUnit
 	{
-		public bool SharedField;
+		public string Name;
 	}
 }

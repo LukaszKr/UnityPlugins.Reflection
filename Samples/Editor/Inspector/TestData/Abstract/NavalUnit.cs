@@ -1,7 +1,7 @@
 ﻿namespace ProceduralLevel.UnityPlugins.Reflection.Samples.Editor
 {
-	public class TestClassA : ABaseClass
+	public class NavalUnit : AUnit
 	{
-		public int ThatField;
+		public float Displacement;
 	}
 }

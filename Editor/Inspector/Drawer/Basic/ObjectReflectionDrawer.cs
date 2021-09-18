@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ProceduralLevel.UnityPlugins.Picker.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,19 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 {
 	public class ObjectReflectionDrawer : AReflectionDrawer
 	{
+		private static readonly Picker<Type> m_TypePicker;
+
+		static ObjectReflectionDrawer()
+		{
+			m_TypePicker = new Picker<Type>();
+			m_TypePicker.ValueToStringCallback = TypeToString;
+		}
+
+		private static string TypeToString(Type type, bool detailed)
+		{
+			return type.Name;
+		}
+
 		public override bool CanDraw(Type type)
 		{
 			return !type.IsPrimitive && !type.IsValueType && type != typeof(string);
@@ -29,7 +43,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 				else
 				{
 					Type current = null;
-					current = Picker.Editor.PickerGUI.Pick(Layout.GetLine(), "Create", current, types);
+					current = m_TypePicker.Pick(Layout.GetLine(), "Create", current, types);
 					if(current != null)
 					{
 						value = Activator.CreateInstance(current);
