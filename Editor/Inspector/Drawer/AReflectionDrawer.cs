@@ -9,6 +9,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 
 		protected ReflectionInspector Inspector => m_Inspector;
 		protected ReflectionInspectorLayout Layout => m_Inspector.Layout;
+		protected ReflectionTypeProvider TypeProvider => m_Inspector.TypeProvider;
 
 		public abstract bool CanDraw(Type type);
 

@@ -2,6 +2,7 @@
 {
 	public class TestClassB : ABaseClass
 	{
-		public int ThisField;
+		public string ClassBField;
+		public bool ClassBBool;
 	}
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ProceduralLevel.UnityPlugins.Common.Logic;
 using ProceduralLevel.UnityPlugins.Reflection.Unity;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Editor
@@ -13,6 +11,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 		public static readonly ReflectionInspector Instance = new ReflectionInspector();
 
 		public readonly ReflectionInspectorLayout Layout = new ReflectionInspectorLayout();
+		public readonly ReflectionTypeProvider TypeProvider = new ReflectionTypeProvider();
 
 		private readonly List<AReflectionDrawer> m_Drawers = new List<AReflectionDrawer>();
 		private readonly NotSupportedReflectionDrawer m_NotSupportedDrawer = new NotSupportedReflectionDrawer();

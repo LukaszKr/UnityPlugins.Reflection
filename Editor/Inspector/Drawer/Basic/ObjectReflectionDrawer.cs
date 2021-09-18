@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -17,9 +18,22 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Editor
 			if(value == null)
 			{
 				EditorGUI.LabelField(Layout.GetLine(), $"{type.Name}");
-				if(GUI.Button(Layout.GetLine(), "Create"))
+				List<Type> types = TypeProvider.GetConstructableFor(type);
+				if(types.Count == 1)
 				{
-					value = Activator.CreateInstance(type);
+					if(GUI.Button(Layout.GetLine(), $"Create {types[0].Name}"))
+					{
+						value = Activator.CreateInstance(types[0]);
+					}
+				}
+				else
+				{
+					Type current = null;
+					current = Picker.Editor.PickerGUI.Pick(Layout.GetLine(), "Create", current, types);
+					if(current != null)
+					{
+						value = Activator.CreateInstance(current);
+					}
 				}
 			}
 			else

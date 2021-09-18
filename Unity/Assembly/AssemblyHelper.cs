@@ -10,6 +10,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		{
 			return GetAllAssignableTo(typeof(TBaseClass));
 		}
+
 		public static List<Type> GetAllAssignableTo(Type baseType)
 		{
 
