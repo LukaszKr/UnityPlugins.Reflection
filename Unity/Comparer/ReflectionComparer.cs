@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
@@ -9,6 +10,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		private readonly TypeDifferenceDetector m_TypeDifference = new TypeDifferenceDetector();
 
 		private readonly List<IComparerHandler> m_Handlers = new List<IComparerHandler>();
+		private readonly List<IComparerHandler> m_ExclusiveHandlers = new List<IComparerHandler>();
 		private readonly List<AIssueDetector> m_Detectors = new List<AIssueDetector>();
 		private readonly List<IValueFilter> m_ValueFilters = new List<IValueFilter>();
 
@@ -86,19 +88,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				return null;
 			}
 
-			int count = m_Handlers.Count;
-			bool foundDiff = false;
-			bool processed;
-
-			for(int x = 0; x < count; ++x)
-			{
-				IComparerHandler handler = m_Handlers[x];
-				foundDiff |= handler.Compare(this, current, path, left, right, out processed);
-				if(processed && handler.Exclusive)
-				{
-					break;
-				}
-			}
+			bool foundDiff = ProcessHandlers(current, path, left, right);
 
 			if(foundDiff)
 			{
@@ -106,6 +96,31 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				return current;
 			}
 			return null;
+		}
+
+		private bool ProcessHandlers(ObjectIssue current, string path, object left, object right)
+		{
+			bool foundDiff = false;
+			bool processed;
+
+			int count = m_ExclusiveHandlers.Count;
+			for(int x = 0; x < count; ++x)
+			{
+				IComparerHandler handler = m_ExclusiveHandlers[x];
+				foundDiff |= handler.Compare(this, current, path, left, right, out processed);
+				if(processed)
+				{
+					return foundDiff;
+				}
+			}
+
+			count = m_Handlers.Count;
+			for(int x = 0; x < count; ++x)
+			{
+				IComparerHandler handler = m_Handlers[x];
+				foundDiff |= handler.Compare(this, current, path, left, right, out _);
+			}
+			return foundDiff;
 		}
 
 		private bool CompareValues(ObjectIssue parent, string path, object left, object right)
@@ -133,7 +148,14 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		#region Handler
 		public ReflectionComparer AddHandler(IComparerHandler handler)
 		{
-			m_Handlers.Add(handler);
+			if(handler.Exclusive)
+			{
+				m_ExclusiveHandlers.Add(handler);
+			}
+			else
+			{
+				m_Handlers.Add(handler);
+			}
 			return this;
 		}
 		#endregion
