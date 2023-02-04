@@ -5,14 +5,16 @@
 	{
 		public abstract bool Exclusive { get; }
 
-		public bool Compare(ReflectionComparer comparer, ObjectIssue parent, string path, object left, object right)
+		public bool Compare(ReflectionComparer comparer, ObjectIssue parent, string path, object left, object right, out bool processed)
 		{
 			TObject castedLeft = left as TObject;
 			TObject castedRight = right as TObject;
 			if(castedLeft != null && castedRight != null)
 			{
+				processed = true;
 				return CompareImpl(comparer, parent, path, castedLeft, castedRight);
 			}
+			processed = false;
 			return false;
 		}
 

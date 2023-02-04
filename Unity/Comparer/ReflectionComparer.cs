@@ -88,12 +88,13 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 
 			int count = m_Handlers.Count;
 			bool foundDiff = false;
+			bool processed;
 
 			for(int x = 0; x < count; ++x)
 			{
 				IComparerHandler handler = m_Handlers[x];
-				foundDiff |= handler.Compare(this, current, path, left, right);
-				if(foundDiff && handler.Exclusive)
+				foundDiff |= handler.Compare(this, current, path, left, right, out processed);
+				if(processed && handler.Exclusive)
 				{
 					break;
 				}
