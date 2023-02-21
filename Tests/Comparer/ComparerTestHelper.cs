@@ -6,6 +6,11 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 {
 	public static class ComparerTestHelper
 	{
+		public static void AssertNoDiff(ObjectIssue diff)
+		{
+			Assert.IsNull(diff);
+		}
+
 		public static void AssertDiff(ObjectIssue diff, Type type, int expectedCount)
 		{
 			int length = diff.Issues.Count;

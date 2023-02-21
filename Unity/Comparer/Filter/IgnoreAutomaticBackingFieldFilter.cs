@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
-	public class IgnoreAutomaticBackingFieldFilter : AFilter, IFieldFilter
+	public class IgnoreAutomaticBackingFieldFilter : IFieldFilter
 	{
 		public bool ShouldIgnore(object parent, FieldInfo field)
 		{

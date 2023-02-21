@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
-	public abstract class ATypeFilter : AFilter, IPropertyFilter, IFieldFilter
+	public abstract class ATypeFilter : IPropertyFilter, IFieldFilter
 	{
 		private readonly Type m_ParentType;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Reflection;
 using UnityEngine;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
@@ -15,6 +15,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		private readonly List<IValueFilter> m_ValueFilters = new List<IValueFilter>();
 
 		private readonly HashSet<int> m_VisitedObjects = new HashSet<int>();
+		private readonly HashSet<Type> m_ScannedTypes = new HashSet<Type>();
 
 		public readonly CompareFieldsHandler Fields;
 		public readonly ComparePropertiesHandler Properties;
@@ -29,13 +30,15 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				AddHandler(new CompareDictionaryHandler());
 				AddHandler(new CompareEnumerableHandler());
 
-				AddHandler(Fields);
-				AddHandler(Properties);
-
 				AddDetector(new ValueDifferenceDetector());
 
 				AddFilter(new IgnoreAutomaticBackingFieldFilter());
+
+				SetupUnity();
 			}
+
+			AddHandler(Fields);
+			AddHandler(Properties);
 		}
 
 		public void SetupUnity()
@@ -49,52 +52,50 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		public ObjectIssue Compare(object left, object right)
 		{
 			m_VisitedObjects.Clear();
-			ObjectIssue diff = CompareObjects(null, ".", left, right);
+			ObjectIssue root = null;
+			if(IsPrimitive(left) || IsPrimitive(right))
+			{
+				root = new ObjectIssue(null, ".");
+			}
+			ObjectIssue diff = CompareObjects(root, ".", left, right);
 			m_VisitedObjects.Clear();
 			return diff;
 		}
 
-		public bool Compare(ObjectIssue parent, string path, object left, object right)
+		internal bool Compare(ObjectIssue parent, string path, object left, object right)
 		{
-			if(CompareValues(parent, path, left, right))
-			{
-				return true;
-			}
-			else if(CanCompareObjects(left) && CanCompareObjects(right))
-			{
-				ObjectIssue issue = CompareObjects(parent, path, left, right);
-				return issue != null;
-			}
-			return false;
+			ObjectIssue diff = CompareObjects(parent, path, left, right);
+			return diff != null;
 		}
 
 		private ObjectIssue CompareObjects(ObjectIssue parent, string path, object left, object right)
 		{
+			TryScanObject(left);
+			TryScanObject(right);
+
+			if(m_ValueFilters.ShouldIgnore(left) || m_ValueFilters.ShouldIgnore(right))
+			{
+				return null;
+			}
+
+			if(CompareValues(parent, path, left, right))
+			{
+				return parent;
+			}
+
+			if(!TryStartCompareObjects(left) || !TryStartCompareObjects(right))
+			{
+				return null;
+			}
+
 			ObjectIssue current = new ObjectIssue(parent, path);
 
-			if(CompareValues(current, path, left, right))
+			if(ProcessHandlers(current, path, left, right))
 			{
 				parent?.Nodes.Add(current);
 				return current;
 			}
 
-			if(left == null || right == null)
-			{
-				return null;
-			}
-
-			if(IsPrimitive(left.GetType()))
-			{
-				return null;
-			}
-
-			bool foundDiff = ProcessHandlers(current, path, left, right);
-
-			if(foundDiff)
-			{
-				parent?.Nodes.Add(current);
-				return current;
-			}
 			return null;
 		}
 
@@ -131,10 +132,6 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 				foundIssue = true;
 			}
 
-			if(m_ValueFilters.ShouldIgnore(left) || m_ValueFilters.ShouldIgnore(right))
-			{
-				return foundIssue;
-			}
 			int count = m_Detectors.Count;
 			for(int x = 0; x < count; ++x)
 			{
@@ -161,7 +158,7 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		#endregion
 
 		#region Filters
-		public ReflectionComparer AddFilter(AFilter filter)
+		public ReflectionComparer AddFilter(IFilter filter)
 		{
 			if(filter is IValueFilter value)
 			{
@@ -251,24 +248,61 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 		#endregion
 
 		#region Helpers
-		private bool IsPrimitive(Type type)
-		{
-			return (type.IsPrimitive || typeof(string).IsAssignableFrom(type));
-		}
-
-		private bool CanCompareObjects(object value)
+		private bool IsPrimitive(object value)
 		{
 			if(value == null)
 			{
-				return true;
+				return false;
 			}
+
 			Type type = value.GetType();
-			if(IsPrimitive(type))
+			return (type.IsPrimitive || typeof(string).IsAssignableFrom(type));
+		}
+
+		private bool TryStartCompareObjects(object value)
+		{
+			if(value == null)
 			{
-				return true;
+				return false;
+			}
+			if(IsPrimitive(value))
+			{
+				return false;
 			}
 			int hash = value.GetHashCode();
 			return m_VisitedObjects.Add(hash);
+		}
+
+		private void TryScanObject(object value)
+		{
+			if(value == null)
+			{
+				return;
+			}
+
+			Type type = value.GetType();
+
+			if(m_ScannedTypes.Contains(type))
+			{
+				return;
+			}
+			m_ScannedTypes.Add(type);
+
+			bool ignoreType = type.IsDefined(typeof(ReflectionIgnoreAttribute));
+			if(ignoreType)
+			{
+				IgnoreType(type);
+				return;
+			}
+
+			MemberInfo[] members = type.GetMembers();
+			foreach(MemberInfo member in members)
+			{
+				if(member.IsDefined(typeof(ReflectionIgnoreAttribute)))
+				{
+					AddFilter(new IgnoreMemberFilter(type, member));
+				}
+			}
 		}
 		#endregion
 	}

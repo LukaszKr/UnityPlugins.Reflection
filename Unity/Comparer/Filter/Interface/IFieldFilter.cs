@@ -2,7 +2,7 @@
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
-	public interface IFieldFilter
+	public interface IFieldFilter : IFilter
 	{
 		bool ShouldIgnore(object parent, FieldInfo field);
 	}

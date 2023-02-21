@@ -25,15 +25,6 @@ namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
 		}
 
 		[Test]
-		public void TypeCheckHappensBeforeFilters()
-		{
-			m_Comparer.IgnoreType(typeof(int));
-
-			ObjectIssue diff = m_Comparer.Compare(1, "test");
-			ComparerTestHelper.AssertDiff(diff, typeof(DifferentTypeIssue));
-		}
-
-		[Test]
 		public void IgnoreByMemberName()
 		{
 			TestClass left = new TestClass(1);

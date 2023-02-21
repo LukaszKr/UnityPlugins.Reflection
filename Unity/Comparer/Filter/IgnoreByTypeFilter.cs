@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Unity
 {
-	public class IgnoreByTypeFilter : AFilter, IValueFilter, IFieldFilter, IPropertyFilter
+	public class IgnoreByTypeFilter : IValueFilter, IFieldFilter, IPropertyFilter
 	{
 		private readonly Type m_IgnoredType;
 
