@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using ProceduralLevel.UnityPlugins.Reflection.Unity;
+using ProceduralLevel.UnityPlugins.Reflection.Logic;
 
 namespace ProceduralLevel.UnityPlugins.Reflection.Tests
 {
