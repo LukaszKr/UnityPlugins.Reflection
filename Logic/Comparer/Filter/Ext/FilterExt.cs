@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public static class FilterExt
 	{

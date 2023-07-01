@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public class CompareFieldsHandler : ACompareHandler<object>
 	{

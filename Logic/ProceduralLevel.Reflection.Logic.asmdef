@@ -1,6 +1,6 @@
 {
-    "name": "ProceduralLevel.UnityPlugins.Reflection.Logic",
-    "rootNamespace": "ProceduralLevel.UnityPlugins.Reflection.Logic",
+    "name": "ProceduralLevel.Reflection.Logic",
+    "rootNamespace": "ProceduralLevel.Reflection.Logic",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

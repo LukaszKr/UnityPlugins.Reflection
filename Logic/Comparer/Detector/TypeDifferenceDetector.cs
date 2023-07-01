@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public class TypeDifferenceDetector : AIssueDetector
 	{

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using ProceduralLevel.UnityPlugins.Reflection.Logic;
+using ProceduralLevel.Reflection.Logic;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer
+namespace ProceduralLevel.Reflection.Tests.Comparer
 {
 	public class ReferenceTests : AComparerTests
 	{

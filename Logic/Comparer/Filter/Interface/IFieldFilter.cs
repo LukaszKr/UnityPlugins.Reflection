@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public interface IFieldFilter : IFilter
 	{

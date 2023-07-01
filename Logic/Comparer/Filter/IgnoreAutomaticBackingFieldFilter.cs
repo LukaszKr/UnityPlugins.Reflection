@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public class IgnoreAutomaticBackingFieldFilter : IFieldFilter
 	{

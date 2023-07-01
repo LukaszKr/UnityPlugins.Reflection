@@ -1,9 +1,9 @@
 {
-    "name": "ProceduralLevel.UnityPlugins.Reflection.Tests",
-    "rootNamespace": "ProceduralLevel.UnityPlugins.Reflection.Tests",
+    "name": "ProceduralLevel.Reflection.Editor",
+    "rootNamespace": "ProceduralLevel.Reflection.Editor",
     "references": [
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:210304052f12ca14a9ff88e9466ff4a5",
+        "GUID:09255ba187395ca4f8dfdd7bb760b467",
         "GUID:208e387570a6b4d44b20efdc5769381e"
     ],
     "includePlatforms": [
@@ -13,12 +13,10 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        ""
     ],
     "autoReferenced": false,
-    "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }

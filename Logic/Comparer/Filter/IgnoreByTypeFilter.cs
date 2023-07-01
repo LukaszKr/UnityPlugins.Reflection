@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Logic
+namespace ProceduralLevel.Reflection.Logic
 {
 	public class IgnoreByTypeFilter : IValueFilter, IFieldFilter, IPropertyFilter
 	{

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using ProceduralLevel.UnityPlugins.Common.Unity;
-using ProceduralLevel.UnityPlugins.Reflection.Logic;
-using ProceduralLevel.UnityPlugins.Common.Editor;
+using ProceduralLevel.Common.Unity;
+using ProceduralLevel.Reflection.Logic;
+using ProceduralLevel.Common.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Editor
+namespace ProceduralLevel.Reflection.Editor
 {
 	public class ReflectionComparerEditorWindow : AExtendedEditorWindow
 	{

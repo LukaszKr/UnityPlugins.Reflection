@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using ProceduralLevel.UnityPlugins.Reflection.Tests.Comparer;
-using ProceduralLevel.UnityPlugins.Reflection.Logic;
+using ProceduralLevel.Reflection.Tests.Comparer;
+using ProceduralLevel.Reflection.Logic;
 using UnityEngine;
 
-namespace ProceduralLevel.UnityPlugins.Reflection.Tests
+namespace ProceduralLevel.Reflection.Tests
 {
 	public class AttributeTests : AComparerTests
 	{
