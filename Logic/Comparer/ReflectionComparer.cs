@@ -221,7 +221,7 @@ namespace ProceduralLevel.Reflection.Logic
 			return AddDetector(new SharedObjectDetector(type));
 		}
 
-		public ReflectionComparer DetectSharedObject<TShared>(TShared shared)
+		public ReflectionComparer DetectSharedObject<TShared>()
 		{
 			return DetectSharedObject(typeof(TShared));
 		}
@@ -231,7 +231,7 @@ namespace ProceduralLevel.Reflection.Logic
 			return AddDetector(new DuplicatedSingletonDetector(type));
 		}
 
-		public ReflectionComparer DetectSingleton<TSingleton>(TSingleton singleton)
+		public ReflectionComparer DetectSingleton<TSingleton>()
 		{
 			return DetectSingleton(typeof(TSingleton));
 		}
