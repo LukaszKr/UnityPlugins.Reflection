@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using ProceduralLevel.Reflection.Tests.Comparer;
 using ProceduralLevel.Reflection.Logic;
-using UnityEngine;
 
 namespace ProceduralLevel.Reflection.Tests
 {
