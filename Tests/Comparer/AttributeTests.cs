@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using ProceduralLevel.Reflection.Tests.Comparer;
 using ProceduralLevel.Reflection.Logic;
+using ProceduralLevel.Reflection.Tests.Comparer;
 
 namespace ProceduralLevel.Reflection.Tests
 {
@@ -9,13 +9,20 @@ namespace ProceduralLevel.Reflection.Tests
 		private class TestClass
 		{
 			public ClassIgnoreToIgnore IgnoreClass;
-			
+
+			[ReflectionIgnore]
+			private int m_PrivateFieldToIgnore;
 			[ReflectionIgnore]
 			public NestedClass NestedToIgnore;
 			[ReflectionIgnore]
 			public int FieldToIgnore;
 			[ReflectionIgnore]
 			public int PropertyToIgnore { get; set; }
+
+			public TestClass(int privateFieldToIgnore = 0)
+			{
+				m_PrivateFieldToIgnore = privateFieldToIgnore;
+			}
 		}
 
 		private class NestedClass
@@ -66,6 +73,16 @@ namespace ProceduralLevel.Reflection.Tests
 			{
 				FieldToIgnore = 2
 			};
+
+			ObjectIssue diff = m_Comparer.Compare(left, right);
+			ComparerTestHelper.AssertNoDiff(diff);
+		}
+
+		[Test]
+		public void IgnorePrivateField()
+		{
+			TestClass left = new TestClass(1);
+			TestClass right = new TestClass(2);
 
 			ObjectIssue diff = m_Comparer.Compare(left, right);
 			ComparerTestHelper.AssertNoDiff(diff);

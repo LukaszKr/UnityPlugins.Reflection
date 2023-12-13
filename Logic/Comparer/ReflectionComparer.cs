@@ -285,7 +285,15 @@ namespace ProceduralLevel.Reflection.Logic
 				return;
 			}
 
-			MemberInfo[] members = type.GetMembers();
+			ScanMembers(type, type.GetFields(BindingFlags.Instance | BindingFlags.Public));
+			ScanMembers(type, type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic));
+			ScanMembers(type, type.GetProperties(BindingFlags.Instance | BindingFlags.Public));
+			ScanMembers(type, type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic));
+		}
+
+		private void ScanMembers<TMember>(Type type, TMember[] members)
+			where TMember : MemberInfo
+		{
 			foreach(MemberInfo member in members)
 			{
 				if(member.IsDefined(typeof(ReflectionIgnoreAttribute)))
