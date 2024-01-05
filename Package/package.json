@@ -1,0 +1,17 @@
+{
+	"name": "procedurallevel.reflection",
+	"version": "1.1.0",
+	"displayName": "Reflection",
+	"description": "",
+	"unity": "2020.3",
+	"unityRelease": "14f1",
+	"dependencies": {
+		"procedurallevel.common": "https://github.com/LukaszKr/UnityPlugins.Common.git"
+	},
+	"keywords": [
+	],
+	"author": {
+		"name": "Procedural Level",
+		"url": "https://www.procedurallevel.com"
+	}
+}
