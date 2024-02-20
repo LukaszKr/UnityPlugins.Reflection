@@ -4,6 +4,7 @@ using ProceduralLevel.Reflection.Logic;
 using ProceduralLevel.Common.Editor;
 using UnityEditor;
 using UnityEngine;
+using System.Text;
 
 namespace ProceduralLevel.Reflection.Editor
 {
@@ -19,6 +20,8 @@ namespace ProceduralLevel.Reflection.Editor
 		private float m_HeightOffset = 0;
 		private int m_Depth;
 		private Vector2 m_Scroll;
+		private readonly Stack<ADetectedIssue> m_IssueStack = new Stack<ADetectedIssue>();
+		private readonly StringBuilder m_StringBuilder = new StringBuilder();
 
 		private ExtendedGUIStyle m_LabelStyle = new ExtendedGUIStyle("box", (s) =>
 		{
@@ -52,7 +55,7 @@ namespace ProceduralLevel.Reflection.Editor
 
 		private void Draw(ObjectIssue diff)
 		{
-			DrawLabel(GetNextRect(), diff.Key, m_ObjectColor, false);
+			DrawLabel(GetNextRect(), GetLabel(diff), m_ObjectColor, false);
 			++m_Depth;
 
 			Draw(diff.Issues);
@@ -138,6 +141,28 @@ namespace ProceduralLevel.Reflection.Editor
 			GUIExt.PushBackgroundColor(GetColor(color, oddRow));
 			EditorGUI.LabelField(rect.AddMargin(MARGIN), text, m_LabelStyle);
 			GUIExt.PopBackgroundColor();
+		}
+
+		private string GetLabel(ADetectedIssue diff)
+		{
+			ADetectedIssue current = diff;
+			while(current != null)
+			{
+				m_IssueStack.Push(current);
+				current = current.Parent;
+			}
+
+			while(m_IssueStack.Count > 0)
+			{
+				if(m_StringBuilder.Length > 0)
+				{
+					m_StringBuilder.Append('.');
+				}
+				m_StringBuilder.Append(m_IssueStack.Pop().Key);
+			}
+			string label = m_StringBuilder.ToString();
+			m_StringBuilder.Length = 0;
+			return label;
 		}
 
 		private Color GetColor(Color baseColor, bool oddRow)
