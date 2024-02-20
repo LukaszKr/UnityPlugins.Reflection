@@ -47,9 +47,9 @@ namespace ProceduralLevel.Reflection.Logic
 			ObjectIssue root = null;
 			if(ComparerUtility.IsPrimitive(left) || ComparerUtility.IsPrimitive(right))
 			{
-				root = new ObjectIssue(null, ".");
+				root = new ObjectIssue(null, "");
 			}
-			ObjectIssue diff = CompareObjects(root, ".", left, right);
+			ObjectIssue diff = CompareObjects(root, "", left, right);
 			m_VisitedObjects.Clear();
 			return diff;
 		}

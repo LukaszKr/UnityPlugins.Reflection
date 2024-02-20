@@ -5,7 +5,7 @@
 		public readonly object LeftValue;
 		public readonly object RightValue;
 
-		public override string Type => "Value";
+		public override string Name => "Different Value";
 		public string DebugLeft => LeftValue?.ToString();
 		public string DebugRight => RightValue?.ToString();
 

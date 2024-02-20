@@ -6,7 +6,7 @@ namespace ProceduralLevel.Reflection.Logic
 	{
 		public readonly Exception Exception;
 
-		public override string Type => "Exception";
+		public override string Name => "Compare Exception";
 		public string DebugValue => Exception.ToString();
 
 		public ExceptionIssue(ObjectIssue parent, string key, Exception exception)

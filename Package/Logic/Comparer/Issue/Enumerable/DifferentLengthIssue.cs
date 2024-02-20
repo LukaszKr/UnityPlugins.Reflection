@@ -5,7 +5,7 @@
 		public readonly int LeftLength;
 		public readonly int RightLength;
 
-		public override string Type => "Length";
+		public override string Name => "Different Length";
 		public string DebugLeft => LeftLength.ToString();
 		public string DebugRight => RightLength.ToString();
 

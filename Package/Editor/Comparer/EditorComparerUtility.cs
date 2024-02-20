@@ -3,11 +3,11 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Editor
 {
-	public static class ComparerUtility
+	public static class EditorComparerUtility
 	{
 		public static readonly ReflectionComparer Comparer = new ReflectionComparer();
 
-		static ComparerUtility()
+		static EditorComparerUtility()
 		{
 
 		}

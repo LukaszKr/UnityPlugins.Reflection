@@ -7,7 +7,7 @@ namespace ProceduralLevel.Reflection.Logic
 		public readonly Type LeftType;
 		public readonly Type RightType;
 
-		public override string Type => "Type";
+		public override string Name => "Different Type";
 		public string DebugLeft => LeftType.Name;
 		public string DebugRight => RightType.Name;
 

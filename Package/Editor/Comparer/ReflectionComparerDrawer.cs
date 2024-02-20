@@ -96,7 +96,7 @@ namespace ProceduralLevel.Reflection.Editor
 		{
 			Rect rect = GetNextRect();
 			rect = DrawKey(rect, issue.Key, oddRow);
-			rect = DrawType(rect, issue.Type, oddRow);
+			rect = DrawType(rect, issue.Name, oddRow);
 
 			RectPair rectPair = rect.SplitHorizontal(0.5f);
 			DrawLabel(rectPair.A, pair.DebugLeft, m_ValueColor, oddRow);
@@ -114,7 +114,7 @@ namespace ProceduralLevel.Reflection.Editor
 			float height = m_LabelStyle.Style.CalcHeight(content, m_Width);
 			Rect rect = GetNextRect(height);
 			rect = DrawKey(rect, issue.Key, oddRow);
-			rect = DrawType(rect, issue.Type, oddRow);
+			rect = DrawType(rect, issue.Name, oddRow);
 
 			DrawLabel(rect, value, m_ValueColor, oddRow);
 		}
@@ -128,7 +128,7 @@ namespace ProceduralLevel.Reflection.Editor
 
 		private Rect DrawType(Rect rect, string name, bool oddRow)
 		{
-			RectPair pair = rect.CutRight(100);
+			RectPair pair = rect.CutRight(150);
 			DrawLabel(pair.B, name, m_IssueColor, oddRow);
 			return pair.A;
 		}

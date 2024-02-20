@@ -6,7 +6,7 @@ namespace ProceduralLevel.Reflection.Logic
 		public readonly Type LeftSingleton;
 		public readonly Type RightSingleton;
 
-		public override string Type => "Singleton";
+		public override string Name => "Duplicated Singleton";
 		public string DebugLeft => LeftSingleton.Name;
 		public string DebugRight => RightSingleton.Name;
 
