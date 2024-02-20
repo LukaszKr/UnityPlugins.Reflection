@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ProceduralLevel.Reflection.Logic
 {
 	public class SharedObjectDetector : AIssueDetector
 	{
-		private readonly Type m_SharedType;
+		public readonly HashSet<Type> CanBeShared = new HashSet<Type>();
 
-		public SharedObjectDetector(Type sharedType)
+		public SharedObjectDetector()
 		{
-			m_SharedType = sharedType;
 		}
 
 		public override bool Compare(ObjectIssue parent, string key, object a, object b)
@@ -17,7 +17,13 @@ namespace ProceduralLevel.Reflection.Logic
 			{
 				return false;
 			}
-			if(m_SharedType != a.GetType())
+			Type type = a.GetType();
+			if(type.IsPrimitive)
+			{
+				return false;
+			}
+
+			if(CanBeShared.Contains(type))
 			{
 				return false;
 			}

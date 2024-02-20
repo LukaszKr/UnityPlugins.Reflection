@@ -5,6 +5,7 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Tests.Comparer
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class DictionaryTests : AComparerTests
 	{
 		[Test]

@@ -7,6 +7,7 @@ namespace ProceduralLevel.Reflection.Logic
 	public class ReflectionComparer
 	{
 		private readonly TypeDifferenceDetector m_TypeDifference = new TypeDifferenceDetector();
+		private readonly SharedObjectDetector m_SharedObjectsDetector = new SharedObjectDetector();
 
 		private readonly List<IComparerHandler> m_Handlers = new List<IComparerHandler>();
 		private readonly List<IComparerHandler> m_ExclusiveHandlers = new List<IComparerHandler>();
@@ -23,6 +24,7 @@ namespace ProceduralLevel.Reflection.Logic
 		{
 			Fields = new CompareFieldsHandler();
 			Properties = new ComparePropertiesHandler();
+			AddDetector(m_SharedObjectsDetector);
 
 			if(setupDefaults)
 			{
@@ -43,7 +45,7 @@ namespace ProceduralLevel.Reflection.Logic
 		{
 			m_VisitedObjects.Clear();
 			ObjectIssue root = null;
-			if(IsPrimitive(left) || IsPrimitive(right))
+			if(ComparerUtility.IsPrimitive(left) || ComparerUtility.IsPrimitive(right))
 			{
 				root = new ObjectIssue(null, ".");
 			}
@@ -216,38 +218,31 @@ namespace ProceduralLevel.Reflection.Logic
 			return this;
 		}
 
-		public ReflectionComparer DetectSharedObject(Type type)
+		public ReflectionComparer AllowSharedObject(Type type)
 		{
-			return AddDetector(new SharedObjectDetector(type));
+			m_SharedObjectsDetector.CanBeShared.Add(type);
+			return this;
 		}
 
-		public ReflectionComparer DetectSharedObject<TShared>()
+		public ReflectionComparer AllowSharedObject<TShared>()
 		{
-			return DetectSharedObject(typeof(TShared));
+			m_SharedObjectsDetector.CanBeShared.Add(typeof(TShared));
+			return this;
 		}
 
-		public ReflectionComparer DetectSingleton(Type type)
+		public ReflectionComparer Singleton(Type type)
 		{
-			return AddDetector(new DuplicatedSingletonDetector(type));
+			return AddDetector(new MultipleSingletonDetector(type));
 		}
 
-		public ReflectionComparer DetectSingleton<TSingleton>()
+		public ReflectionComparer Singleton<TSingleton>()
 		{
-			return DetectSingleton(typeof(TSingleton));
+			return Singleton(typeof(TSingleton));
 		}
 		#endregion
 
 		#region Helpers
-		private bool IsPrimitive(object value)
-		{
-			if(value == null)
-			{
-				return false;
-			}
 
-			Type type = value.GetType();
-			return (type.IsPrimitive || typeof(string).IsAssignableFrom(type));
-		}
 
 		private bool TryStartCompareObjects(object value)
 		{
@@ -255,7 +250,7 @@ namespace ProceduralLevel.Reflection.Logic
 			{
 				return false;
 			}
-			if(IsPrimitive(value))
+			if(ComparerUtility.IsPrimitive(value))
 			{
 				return false;
 			}

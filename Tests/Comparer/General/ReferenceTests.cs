@@ -3,6 +3,7 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Tests.Comparer
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class ReferenceTests : AComparerTests
 	{
 		private class RootClass
@@ -23,7 +24,6 @@ namespace ProceduralLevel.Reflection.Tests.Comparer
 			left.Nested = new NestedClass();
 			right.Nested = left.Nested;
 
-			m_Comparer.DetectSharedObject<NestedClass>();
 			ObjectIssue diff = m_Comparer.Compare(left, right);
 			ComparerTestHelper.AssertDiff(diff, typeof(SharedObjectIssue));
 		}
@@ -36,7 +36,7 @@ namespace ProceduralLevel.Reflection.Tests.Comparer
 			left.Nested = new NestedClass();
 			right.Nested = new NestedClass();
 
-			m_Comparer.DetectSingleton<NestedClass>();
+			m_Comparer.Singleton<NestedClass>();
 			ObjectIssue diff = m_Comparer.Compare(left, right);
 			ComparerTestHelper.AssertDiff(diff, typeof(DuplicatedSingletonIssue));
 		}

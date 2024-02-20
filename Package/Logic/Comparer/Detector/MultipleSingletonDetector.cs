@@ -2,11 +2,11 @@
 
 namespace ProceduralLevel.Reflection.Logic
 {
-	public class DuplicatedSingletonDetector : AIssueDetector
+	public class MultipleSingletonDetector : AIssueDetector
 	{
 		private readonly Type m_SingletonType;
 
-		public DuplicatedSingletonDetector(Type singletonType)
+		public MultipleSingletonDetector(Type singletonType)
 		{
 			m_SingletonType = singletonType;
 		}

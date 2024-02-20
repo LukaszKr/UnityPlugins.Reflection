@@ -4,6 +4,7 @@ using ProceduralLevel.Reflection.Tests.Comparer;
 
 namespace ProceduralLevel.Reflection.Tests
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class AttributeTests : AComparerTests
 	{
 		private class TestClass

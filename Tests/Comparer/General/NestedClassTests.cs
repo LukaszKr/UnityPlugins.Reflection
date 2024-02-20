@@ -3,6 +3,7 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Tests.Comparer
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class NestedClassTests : AComparerTests
 	{
 		private class RootClass

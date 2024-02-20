@@ -3,6 +3,7 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Tests
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class AComparerTests
 	{
 		protected ReflectionComparer m_Comparer;

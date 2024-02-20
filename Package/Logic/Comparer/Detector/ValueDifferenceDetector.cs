@@ -19,7 +19,7 @@ namespace ProceduralLevel.Reflection.Logic
 			{
 				type = a.GetType();
 			}
-			if(type.IsPrimitive || typeof(string).IsAssignableFrom(type))
+			if(ComparerUtility.IsPrimitive(type))
 			{
 				if(!Equals(a, b))
 				{

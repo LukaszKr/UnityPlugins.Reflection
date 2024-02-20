@@ -4,6 +4,7 @@ using ProceduralLevel.Reflection.Logic;
 
 namespace ProceduralLevel.Reflection.Tests.Comparer
 {
+	[Category(ReflectionTestsConsts.CATEGORY)]
 	public class PropertyTests : AComparerTests
 	{
 		private class ClassWithAutoProperty
