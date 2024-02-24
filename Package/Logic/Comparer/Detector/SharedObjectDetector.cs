@@ -9,6 +9,7 @@ namespace ProceduralLevel.Reflection.Logic
 
 		public SharedObjectDetector()
 		{
+			CanBeShared.Add(typeof(string));
 		}
 
 		public override bool Compare(ObjectIssue parent, string key, object a, object b)
@@ -18,7 +19,7 @@ namespace ProceduralLevel.Reflection.Logic
 				return false;
 			}
 			Type type = a.GetType();
-			if(type.IsPrimitive)
+			if(type.IsPrimitive || type.IsValueType)
 			{
 				return false;
 			}
