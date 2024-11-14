@@ -1,7 +1,7 @@
-﻿namespace ProceduralLevel.Reflection.Tests
+namespace UnityPlugins.Reflection
 {
-	internal static class ReflectionTestsConsts
+	public static class ReflectionTestsConsts
 	{
-		public const string CATEGORY = "Reflection";
+		public const string CATEGORY_ASSEMBLY = "UnityPlugins.Reflection";
 	}
 }

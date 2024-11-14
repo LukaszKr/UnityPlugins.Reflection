@@ -1,0 +1,19 @@
+{
+    "name": "UnityPlugins.Reflection.Editor",
+    "rootNamespace": "UnityPlugins.Reflection.Editor",
+    "references": [
+        "GUID:1e58f1eea8b401b468984fdca70311df",
+        "GUID:2554327523fc511499b0f14e873f4790"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

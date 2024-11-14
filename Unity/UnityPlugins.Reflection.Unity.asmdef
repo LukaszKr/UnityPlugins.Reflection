@@ -1,0 +1,16 @@
+{
+    "name": "UnityPlugins.Reflection.Unity",
+    "rootNamespace": "UnityPlugins.Reflection.Unity",
+    "references": [
+        "GUID:1e58f1eea8b401b468984fdca70311df"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

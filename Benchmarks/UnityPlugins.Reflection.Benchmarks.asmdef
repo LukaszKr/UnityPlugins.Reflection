@@ -1,0 +1,26 @@
+{
+    "name": "UnityPlugins.Reflection.Benchmarks",
+    "rootNamespace": "UnityPlugins.Reflection",
+    "references": [
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:c0dd0d10738d4ad4a9de57c559d0ca1b",
+        "GUID:1e58f1eea8b401b468984fdca70311df",
+        "GUID:2554327523fc511499b0f14e873f4790"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
