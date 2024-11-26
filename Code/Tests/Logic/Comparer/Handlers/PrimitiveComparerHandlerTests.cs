@@ -40,8 +40,8 @@ namespace UnityPlugins.Reflection.Logic.Comparer.Handlers
 			};
 		}
 
-		[Test]
-		public override void CanHandle([ValueSource(nameof(GetCanHandleTests))] CanHandleTest test)
+		[Test, TestCaseSource(nameof(GetCanHandleTests))]
+		public override void CanHandle(CanHandleTest test)
 		{
 			test.Run(m_Handler);
 		}
