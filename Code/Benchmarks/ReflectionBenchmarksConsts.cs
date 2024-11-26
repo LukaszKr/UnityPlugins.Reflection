@@ -1,4 +1,4 @@
-namespace UnityPlugins.Reflection.Benchmarks
+namespace UnityPlugins.Reflection
 {
 	public static class ReflectionBenchmarksConsts
 	{
