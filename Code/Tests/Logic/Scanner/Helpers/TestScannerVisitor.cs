@@ -4,23 +4,23 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 {
 	internal class TestScannerVisitor : IScannerVisitor
 	{
-		public int CallCount;
-		public int ConsumeCount;
+		public int VisitedCount;
+		public int AcceptedCount;
 
 		public void Visit(ScannerVisitData data)
 		{
-			CallCount++;
+			VisitedCount++;
 			if(data.Value is TestScannerTarget)
 			{
-				ConsumeCount++;
+				AcceptedCount++;
 			}
 		}
 
-		public void AssertResult(int callCount, int consumeCount)
+		public void AssertResult(int visitedCount, int acceptedCount)
 		{
-			Assert.IsTrue(CallCount >= ConsumeCount);
-			Assert.AreEqual(callCount, CallCount);
-			Assert.AreEqual(consumeCount, ConsumeCount);
+			Assert.IsTrue(VisitedCount >= AcceptedCount);
+			Assert.AreEqual(visitedCount, VisitedCount, nameof(VisitedCount));
+			Assert.AreEqual(acceptedCount, AcceptedCount, nameof(AcceptedCount));
 		}
 	}
 }

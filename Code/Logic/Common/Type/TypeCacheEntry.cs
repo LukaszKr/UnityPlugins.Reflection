@@ -27,14 +27,32 @@ namespace UnityPlugins.Reflection.Logic
 			{
 				List<FieldInfo> fields = new List<FieldInfo>();
 				List<PropertyInfo> properties = new List<PropertyInfo>();
-				ProcessFields(fields, type.GetFields(BindingFlags.Instance | BindingFlags.Public));
-				ProcessFields(fields, type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic));
-				ProcessProperties(properties, type.GetProperties(BindingFlags.Instance | BindingFlags.Public));
-				ProcessProperties(properties, type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic));
+				if(analyzer.IncludeInstance)
+				{
+					ProcessFields(type, fields, BindingFlags.Instance);
+					ProcessProperties(type, properties, BindingFlags.Instance);
+				}
+				if(analyzer.IncludeStatic)
+				{
+					ProcessFields(type, fields, BindingFlags.Static);
+					ProcessProperties(type, properties, BindingFlags.Static);
+				}
 
 				Fields = fields.ToArray();
 				Properties = properties.ToArray();
 			}
+		}
+
+		private void ProcessFields(Type type, List<FieldInfo> fields, BindingFlags flags)
+		{
+			ProcessFields(fields, type.GetFields(flags | BindingFlags.Public));
+			ProcessFields(fields, type.GetFields(flags | BindingFlags.NonPublic));
+		}
+
+		private void ProcessProperties(Type type, List<PropertyInfo> properties, BindingFlags flags)
+		{
+			ProcessProperties(properties, type.GetProperties(flags | BindingFlags.Public));
+			ProcessProperties(properties, type.GetProperties(flags | BindingFlags.NonPublic));
 		}
 
 		private void ProcessFields(List<FieldInfo> buffer, FieldInfo[] fields)

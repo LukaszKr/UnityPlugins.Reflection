@@ -45,6 +45,12 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 			}
 		}
 
+		public class StaticContainer
+		{
+			public static TestScannerTarget StaticTarget = new TestScannerTarget();
+			public TestScannerTarget NonStaticTarget = new TestScannerTarget();
+		}
+
 		private ReflectionScanner m_Scanner;
 		private TestScannerVisitor m_Visitor;
 
@@ -132,6 +138,35 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 		}
 
 		[Test]
+		public void Scan_IncludeStatic()
+		{
+			m_Scanner.Analyzer.IncludeStatic = true;
+			StaticContainer container = new StaticContainer();
+			//static container + both keys visited
+			ScanAndAssert(container, 3, 2);
+		}
+
+		[Test]
+		public void Scan_IncludeOnlyStatic()
+		{
+			m_Scanner.Analyzer.IncludeStatic = true;
+			m_Scanner.Analyzer.IncludeInstance = false;
+			StaticContainer container = new StaticContainer();
+			//static container + static key visited
+			ScanAndAssert(container, 2, 1);
+		}
+
+		[Test]
+		public void Scan_IncludeNone()
+		{
+			m_Scanner.Analyzer.IncludeStatic = false;
+			m_Scanner.Analyzer.IncludeInstance = false;
+			StaticContainer container = new StaticContainer();
+			//1 visited - static container
+			ScanAndAssert(container, 1, 0);
+		}
+
+		[Test]
 		public void Filters_AreApplied()
 		{
 			m_Scanner.Filters.Add(new TestFilter(typeof(int)));
@@ -140,10 +175,10 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 			ScanAndAssert(container, 2, 1);
 		}
 
-		private void ScanAndAssert(object value, int callCount, int consumeCount)
+		private void ScanAndAssert(object value, int visitedCount, int acceptedCount)
 		{
 			m_Scanner.Scan(value);
-			m_Visitor.AssertResult(callCount, consumeCount);
+			m_Visitor.AssertResult(visitedCount, acceptedCount);
 		}
 	}
 }

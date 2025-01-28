@@ -9,6 +9,9 @@ namespace UnityPlugins.Reflection.Logic
 		public readonly IgnoreTypeFilter IgnoreType = new IgnoreTypeFilter();
 		public readonly List<ITypeFilter> Filter = new List<ITypeFilter>();
 
+		public bool IncludeInstance = true;
+		public bool IncludeStatic = false;
+
 		private Dictionary<Type, TypeCacheEntry> m_Entries = new Dictionary<Type, TypeCacheEntry>();
 
 		public TypeAnalyzer()
