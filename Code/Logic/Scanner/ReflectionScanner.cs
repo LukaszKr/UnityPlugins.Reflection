@@ -21,6 +21,7 @@ namespace UnityPlugins.Reflection.Logic
 		public void Scan(object value)
 		{
 			Scan(null, value);
+			m_Visited.Clear();
 		}
 
 		private void Scan(object parent, object value)
