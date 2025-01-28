@@ -51,6 +51,11 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 			public TestScannerTarget NonStaticTarget = new TestScannerTarget();
 		}
 
+		public static class StaticClass
+		{
+			public static TestScannerTarget StaticTarget = new TestScannerTarget();
+		}
+
 		private ReflectionScanner m_Scanner;
 		private TestScannerVisitor m_Visitor;
 
@@ -164,6 +169,14 @@ namespace UnityPlugins.Reflection.Logic.Scanner
 			StaticContainer container = new StaticContainer();
 			//1 visited - static container
 			ScanAndAssert(container, 1, 0);
+		}
+
+		[Test]
+		public void Scan_StaticClass()
+		{
+			m_Scanner.Analyzer.IncludeStatic = true;
+			m_Scanner.Scan(typeof(StaticClass));
+			m_Visitor.AssertResult(1, 1);
 		}
 
 		[Test]

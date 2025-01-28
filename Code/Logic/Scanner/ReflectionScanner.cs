@@ -18,6 +18,15 @@ namespace UnityPlugins.Reflection.Logic
 		{
 		}
 
+		public void Scan(Type type)
+		{
+			if(!IsValid(type))
+			{
+				return;
+			}
+			ScanType(type, null, null);
+		}
+
 		public void Scan(object value)
 		{
 			Scan(null, value);
@@ -67,6 +76,11 @@ namespace UnityPlugins.Reflection.Logic
 				return;
 			}
 
+			ScanType(type, parent, value);
+		}
+
+		private void ScanType(Type type, object parent, object value)
+		{
 			TypeCacheEntry entry = Analyzer.GetEntry(type);
 			foreach(FieldInfo field in entry.Fields)
 			{
