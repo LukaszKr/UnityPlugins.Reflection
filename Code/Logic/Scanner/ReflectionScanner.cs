@@ -25,6 +25,7 @@ namespace UnityPlugins.Reflection.Logic
 				return;
 			}
 			ScanType(type, null, null);
+			m_Visited.Clear();
 		}
 
 		public void Scan(object value)
