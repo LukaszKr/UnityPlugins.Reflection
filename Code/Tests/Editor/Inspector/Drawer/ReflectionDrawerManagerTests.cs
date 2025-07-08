@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace UnityPlugins.Reflection.Editor.Inspector.Drawer
 {
@@ -19,7 +20,7 @@ namespace UnityPlugins.Reflection.Editor.Inspector.Drawer
 
 		private class TestDrawer<TValue> : AValueInspectorDrawer<TValue>
 		{
-			protected override TValue OnDraw(object parent, string label, TValue value)
+			protected override TValue OnDraw(object parent, Type type, string label, TValue value)
 			{
 				throw new System.NotImplementedException();
 			}

@@ -11,9 +11,9 @@ namespace UnityPlugins.Reflection.Editor
 
 		protected override object Draw(object parent, Type type, string label, object value)
 		{
-			return OnDraw(parent, label, (TValue)value);
+			return OnDraw(parent, type, label, (TValue)value);
 		}
 
-		protected abstract TValue OnDraw(object parent, string label, TValue value);
+		protected abstract TValue OnDraw(object parent, Type type, string label, TValue value);
 	}
 }

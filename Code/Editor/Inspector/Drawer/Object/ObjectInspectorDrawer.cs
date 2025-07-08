@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 using UnityPlugins.Reflection.Logic;
 using UnityEditor;
+using System;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ObjectInspectorDrawer : AValueInspectorDrawer<object>
 	{
-		protected override object OnDraw(object parent, string label, object value)
+		protected override object OnDraw(object parent, Type type, string label, object value)
 		{
 			EditorGUILayout.BeginVertical("box");
 			{
