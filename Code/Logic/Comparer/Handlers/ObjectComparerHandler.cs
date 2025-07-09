@@ -34,14 +34,14 @@ namespace UnityPlugins.Reflection.Logic
 				return;
 			}
 
-			foreach(FieldInfo field in entry.Fields)
+			foreach(FieldValueSource field in entry.Fields)
 			{
 				object subLeft = field.GetValue(group.Left);
 				object subRight = field.GetValue(group.Right);
 				m_Comparer.CompareInternal(group, field.Name, subLeft, subRight);
 			}
 
-			foreach(PropertyInfo property in entry.Properties)
+			foreach(PropertyValueSource property in entry.Properties)
 			{
 				object subLeft = property.GetValue(group.Left);
 				object subRight = property.GetValue(group.Right);

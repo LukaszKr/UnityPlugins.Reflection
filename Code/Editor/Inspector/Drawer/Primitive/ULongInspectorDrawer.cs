@@ -1,14 +1,13 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ULongInspectorDrawer : AValueInspectorDrawer<ulong>
 	{
-		protected override ulong OnDraw(object parent, Type type, string label, ulong value)
+		protected override void Draw(object parent, AValueSource source, ulong current)
 		{
-			EditorGUILayout.LabelField($"{label}(ULong) = {value}");
-			return value;
+			EditorGUILayout.LabelField($"{source.Name}(ULong) = {current}");
 		}
 	}
 }

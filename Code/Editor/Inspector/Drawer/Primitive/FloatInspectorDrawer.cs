@@ -1,13 +1,15 @@
 ﻿using System;
 using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class FloatInspectorDrawer : AValueInspectorDrawer<float>
 	{
-		protected override float OnDraw(object parent, Type type, string label, float value)
+		protected override void Draw(object parent, AValueSource source, float current)
 		{
-			return EditorGUILayout.FloatField(label, value);
+			float newValue = EditorGUILayout.FloatField(source.Name, current);
+			source.SetValue(parent, newValue);
 		}
 	}
 }

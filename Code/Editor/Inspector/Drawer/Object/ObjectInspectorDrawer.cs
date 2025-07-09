@@ -1,44 +1,46 @@
-﻿using System.Reflection;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityPlugins.Reflection.Logic;
-using UnityEditor;
-using System;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ObjectInspectorDrawer : AValueInspectorDrawer<object>
 	{
-		protected override object OnDraw(object parent, Type type, string label, object value)
+		protected override void Draw(object parent, AValueSource source, object current)
 		{
 			EditorGUILayout.BeginVertical("box");
 			{
-				EditorGUILayout.LabelField(label);
-				if(value == null)
+				EditorGUILayout.LabelField(source.Name);
+				if(current == null)
 				{
-					EditorGUILayout.LabelField($"{label}: NULL");
-					EditorGUILayout.EndVertical();
-					return value;
-				}
-				TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(value.GetType());
 
-				foreach(FieldInfo field in entry.Fields)
-				{
-					object fieldValue = field.GetValue(value);
-					AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(field.FieldType);
-					fieldValue = drawer.Draw(m_Inspector, value, field.FieldType, field.Name, fieldValue);
-					field.SetValue(value, fieldValue);
+					if(GUILayout.Button($"{source.Name}: NULL"))
+					{
+						TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source);
+						Rect rect = GUILayoutUtility.GetLastRect();
+						rect.width = Screen.width;
+						rect.position = Event.current.mousePosition;
+						dropdown.Show(rect);
+					}
 				}
-
-				foreach(PropertyInfo property in entry.Properties)
+				else
 				{
-					object propertyValue = property.GetValue(value);
-					AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(property.PropertyType);
-					propertyValue = drawer.Draw(m_Inspector, value, property.PropertyType, property.Name, propertyValue);
-					property.SetValue(value, propertyValue);
+					TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(source.Type);
+
+					foreach(FieldValueSource field in entry.Fields)
+					{
+						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(field.Type);
+						drawer.Draw(m_Inspector, current, field);
+					}
+
+					foreach(PropertyValueSource property in entry.Properties)
+					{
+						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(property.Type);
+						drawer.Draw(m_Inspector, current, property);
+					}
 				}
 			}
 			EditorGUILayout.EndVertical();
-
-			return value;
 		}
 	}
 }

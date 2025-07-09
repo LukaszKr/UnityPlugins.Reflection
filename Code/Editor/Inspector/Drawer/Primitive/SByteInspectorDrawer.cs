@@ -1,14 +1,16 @@
 ﻿using System;
 using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class SByteInspectorDrawer : AValueInspectorDrawer<sbyte>
 	{
-		protected override sbyte OnDraw(object parent, Type type, string label, sbyte value)
+		protected override void Draw(object parent, AValueSource source, sbyte current)
 		{
-			int newValue = EditorGUILayout.IntField(label, value);
-			return (sbyte)Math.Clamp(newValue, sbyte.MinValue, sbyte.MaxValue);
+			long newValue = EditorGUILayout.IntField(source.Name, current);
+			long clamped = (sbyte)Math.Clamp(newValue, sbyte.MinValue, sbyte.MaxValue);
+			source.SetValue(parent, clamped);
 		}
 	}
 }

@@ -10,8 +10,8 @@ namespace UnityPlugins.Reflection.Logic
 		public readonly TypeAnalyzer Analyzer;
 		public readonly Type Type;
 
-		public readonly FieldInfo[] Fields;
-		public readonly PropertyInfo[] Properties;
+		public readonly FieldValueSource[] Fields;
+		public readonly PropertyValueSource[] Properties;
 
 		public TypeCacheEntry(TypeAnalyzer analyzer, Type type)
 		{
@@ -20,13 +20,13 @@ namespace UnityPlugins.Reflection.Logic
 
 			if(Type.IsPrimitive || Type.IsString() || !Analyzer.IsValid(type))
 			{
-				Fields = Array.Empty<FieldInfo>();
-				Properties = Array.Empty<PropertyInfo>();
+				Fields = Array.Empty<FieldValueSource>();
+				Properties = Array.Empty<PropertyValueSource>();
 			}
 			else
 			{
-				List<FieldInfo> fields = new List<FieldInfo>();
-				List<PropertyInfo> properties = new List<PropertyInfo>();
+				List<FieldValueSource> fields = new List<FieldValueSource>();
+				List<PropertyValueSource> properties = new List<PropertyValueSource>();
 				if(analyzer.IncludeInstance)
 				{
 					ProcessFields(type, fields, BindingFlags.Instance);
@@ -43,19 +43,19 @@ namespace UnityPlugins.Reflection.Logic
 			}
 		}
 
-		private void ProcessFields(Type type, List<FieldInfo> fields, BindingFlags flags)
+		private void ProcessFields(Type type, List<FieldValueSource> fields, BindingFlags flags)
 		{
 			ProcessFields(fields, type.GetFields(flags | BindingFlags.Public));
 			ProcessFields(fields, type.GetFields(flags | BindingFlags.NonPublic));
 		}
 
-		private void ProcessProperties(Type type, List<PropertyInfo> properties, BindingFlags flags)
+		private void ProcessProperties(Type type, List<PropertyValueSource> properties, BindingFlags flags)
 		{
 			ProcessProperties(properties, type.GetProperties(flags | BindingFlags.Public));
 			ProcessProperties(properties, type.GetProperties(flags | BindingFlags.NonPublic));
 		}
 
-		private void ProcessFields(List<FieldInfo> buffer, FieldInfo[] fields)
+		private void ProcessFields(List<FieldValueSource> buffer, FieldInfo[] fields)
 		{
 			foreach(FieldInfo field in fields)
 			{
@@ -63,11 +63,11 @@ namespace UnityPlugins.Reflection.Logic
 				{
 					continue;
 				}
-				buffer.Add(field);
+				buffer.Add(new FieldValueSource(field));
 			}
 		}
 
-		private void ProcessProperties(List<PropertyInfo> buffer, PropertyInfo[] properties)
+		private void ProcessProperties(List<PropertyValueSource> buffer, PropertyInfo[] properties)
 		{
 			foreach(PropertyInfo property in properties)
 			{
@@ -75,7 +75,7 @@ namespace UnityPlugins.Reflection.Logic
 				{
 					continue;
 				}
-				buffer.Add(property);
+				buffer.Add(new PropertyValueSource(property));
 			}
 		}
 

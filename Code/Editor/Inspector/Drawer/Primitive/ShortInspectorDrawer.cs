@@ -1,14 +1,16 @@
 ﻿using System;
 using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ShortInspectorDrawer : AValueInspectorDrawer<short>
 	{
-		protected override short OnDraw(object parent, Type type, string label, short value)
+		protected override void Draw(object parent, AValueSource source, short current)
 		{
-			int newValue = EditorGUILayout.IntField(label, value);
-			return (short)Math.Clamp(newValue, short.MinValue, short.MaxValue);
+			long newValue = EditorGUILayout.IntField(source.Name, current);
+			long clamped = (short)Math.Clamp(newValue, short.MinValue, short.MaxValue);
+			source.SetValue(parent, clamped);
 		}
 	}
 }

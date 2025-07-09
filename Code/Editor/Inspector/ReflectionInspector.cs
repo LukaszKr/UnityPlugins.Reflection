@@ -1,5 +1,4 @@
-﻿using System;
-using UnityPlugins.Reflection.Logic;
+﻿using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
@@ -28,10 +27,10 @@ namespace UnityPlugins.Reflection.Editor
 			Drawers.AddGenericDrawer(new ObjectInspectorDrawer());
 		}
 
-		public object Draw(Type type, string label, object value)
+		public void Draw(CodeValueSource source)
 		{
-			AInspectorDrawer drawer = Drawers.GetDrawer(type);
-			return drawer.Draw(this, null, type, label, value);
+			AInspectorDrawer drawer = Drawers.GetDrawer(source.Type);
+			drawer.Draw(this, null, source);
 		}
 	}
 }

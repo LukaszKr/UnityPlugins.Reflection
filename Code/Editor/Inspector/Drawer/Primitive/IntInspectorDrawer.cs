@@ -1,13 +1,14 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class IntInspectorDrawer : AValueInspectorDrawer<int>
 	{
-		protected override int OnDraw(object parent, Type type, string label, int value)
+		protected override void Draw(object parent, AValueSource source, int current)
 		{
-			return EditorGUILayout.IntField(label, value);
+			int newValue = EditorGUILayout.IntField(source.Name, current);
+			source.SetValue(parent, newValue);
 		}
 	}
 }

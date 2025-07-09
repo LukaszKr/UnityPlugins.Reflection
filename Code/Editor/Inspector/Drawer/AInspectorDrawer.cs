@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
@@ -8,12 +9,12 @@ namespace UnityPlugins.Reflection.Editor
 
 		public abstract bool CanDraw(Type type);
 
-		public object Draw(ReflectionInspector inspector, object parent, Type type, string label, object value)
+		public void Draw(ReflectionInspector inspector, object parent, AValueSource source)
 		{
 			m_Inspector = inspector;
-			return Draw(parent, type, label, value);
+			Draw(parent, source);
 		}
 
-		protected abstract object Draw(object parent, Type type, string label, object value);
+		protected abstract void Draw(object parent, AValueSource source);
 	}
 }

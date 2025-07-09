@@ -83,13 +83,13 @@ namespace UnityPlugins.Reflection.Logic
 		private void ScanType(Type type, object parent, object value)
 		{
 			TypeCacheEntry entry = Analyzer.GetEntry(type);
-			foreach(FieldInfo field in entry.Fields)
+			foreach(FieldValueSource field in entry.Fields)
 			{
 				object fieldValue = field.GetValue(value);
 				Scan(parent, fieldValue);
 			}
 
-			foreach(PropertyInfo property in entry.Properties)
+			foreach(PropertyValueSource property in entry.Properties)
 			{
 				object propertyValue = property.GetValue(value);
 				Scan(parent, propertyValue);

@@ -1,13 +1,15 @@
 ﻿using System;
 using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class BoolInspectorDrawer : AValueInspectorDrawer<bool>
 	{
-		protected override bool OnDraw(object parent, Type type, string label, bool value)
+		protected override void Draw(object parent, AValueSource source, bool current)
 		{
-			return EditorGUILayout.ToggleLeft(label, value);
+			bool newValue = EditorGUILayout.ToggleLeft(source.Name, current);
+			source.SetValue(parent, newValue);
 		}
 	}
 }

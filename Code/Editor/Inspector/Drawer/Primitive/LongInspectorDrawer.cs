@@ -1,13 +1,14 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class LongInspectorDrawer : AValueInspectorDrawer<long>
 	{
-		protected override long OnDraw(object parent, Type type, string label, long value)
+		protected override void Draw(object parent, AValueSource source, long current)
 		{
-			return EditorGUILayout.LongField(label, value);
+			long newValue = EditorGUILayout.LongField(source.Name, current);
+			source.SetValue(parent, newValue);
 		}
 	}
 }

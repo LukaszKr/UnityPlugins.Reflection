@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
@@ -9,11 +10,12 @@ namespace UnityPlugins.Reflection.Editor
 			return typeof(TValue).IsAssignableFrom(type);
 		}
 
-		protected override object Draw(object parent, Type type, string label, object value)
+		protected override void Draw(object parent, AValueSource source)
 		{
-			return OnDraw(parent, type, label, (TValue)value);
+			TValue current = source.GetValue<TValue>(parent);
+			Draw(parent, source, current);
 		}
 
-		protected abstract TValue OnDraw(object parent, Type type, string label, TValue value);
+		protected abstract void Draw(object parent, AValueSource source, TValue current);
 	}
 }
