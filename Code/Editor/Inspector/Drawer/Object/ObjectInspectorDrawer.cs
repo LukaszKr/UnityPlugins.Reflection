@@ -8,13 +8,12 @@ namespace UnityPlugins.Reflection.Editor
 	{
 		protected override void Draw(object parent, AValueSource source, object current)
 		{
-			EditorGUILayout.BeginVertical("box");
+			EditorGUILayout.BeginHorizontal();
 			{
-				EditorGUILayout.LabelField(source.Name);
+				EditorGUILayout.LabelField(source.Name, EditorStyles.boldLabel, GUILayout.Width(EditorGUIUtility.labelWidth));
 				if(current == null)
 				{
-
-					if(GUILayout.Button($"{source.Name}: NULL"))
+					if(GUILayout.Button($"N/A"))
 					{
 						TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source);
 						Rect rect = GUILayoutUtility.GetLastRect();
@@ -24,6 +23,19 @@ namespace UnityPlugins.Reflection.Editor
 					}
 				}
 				else
+				{
+					EditorGUILayout.LabelField(current.GetType().Name);
+					if(GUILayout.Button("X", GUILayout.Width(24)))
+					{
+						source.SetValue(parent, null);
+					}
+				}
+			}
+			EditorGUILayout.EndHorizontal();
+
+			if(current != null)
+			{
+				EditorGUILayout.BeginVertical("helpbox");
 				{
 					TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(source.Type);
 
@@ -39,8 +51,8 @@ namespace UnityPlugins.Reflection.Editor
 						drawer.Draw(m_Inspector, current, property);
 					}
 				}
+				EditorGUILayout.EndVertical();
 			}
-			EditorGUILayout.EndVertical();
 		}
 	}
 }

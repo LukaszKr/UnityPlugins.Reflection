@@ -25,9 +25,12 @@ namespace UnityPlugins.Reflection.Editor
 		protected override AdvancedDropdownItem BuildRoot()
 		{
 			AdvancedDropdownItem root = new AdvancedDropdownItem(Label);
+			int id = 0;
 			foreach(Type type in GetValidTypes(Source.Type))
 			{
 				AdvancedDropdownItem option = new AdvancedDropdownItem(type.Name);
+				option.id = id;
+				id++;
 				m_Map.Add(option.id, type);
 				root.AddChild(option);
 			}
@@ -64,7 +67,10 @@ namespace UnityPlugins.Reflection.Editor
 					ConstructorInfo constructor = typeToCheck.GetConstructor(Type.EmptyTypes);
 					if(constructor == null)
 					{
-						continue;
+						if(typeToCheck.GetConstructors().Length != 0)
+						{
+							continue;
+						}
 					}
 					yield return typeToCheck;
 				}
