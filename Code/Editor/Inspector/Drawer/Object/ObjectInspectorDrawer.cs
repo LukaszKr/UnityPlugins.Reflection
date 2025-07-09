@@ -37,17 +37,17 @@ namespace UnityPlugins.Reflection.Editor
 			{
 				EditorGUILayout.BeginVertical("helpbox");
 				{
-					TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(source.Type);
+					TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(current.GetType());
 
 					foreach(FieldValueSource field in entry.Fields)
 					{
-						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(field.Type);
+						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(field.GetValueType(current));
 						drawer.Draw(m_Inspector, current, field);
 					}
 
 					foreach(PropertyValueSource property in entry.Properties)
 					{
-						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(property.Type);
+						AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(property.GetValueType(current));
 						drawer.Draw(m_Inspector, current, property);
 					}
 				}
