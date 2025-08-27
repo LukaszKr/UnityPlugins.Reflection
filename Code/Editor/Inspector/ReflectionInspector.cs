@@ -25,6 +25,7 @@ namespace UnityPlugins.Reflection.Editor
 			Drawers.AddSpecificDrawer(new DoubleInspectorDrawer());
 
 			Drawers.AddGenericDrawer(new ObjectInspectorDrawer());
+			Drawers.AddGenericDrawer(new UnityObjectInspectorDrawer());
 		}
 
 		public void Draw(CodeValueSource source)
