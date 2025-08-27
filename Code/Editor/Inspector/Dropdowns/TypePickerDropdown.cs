@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
@@ -20,6 +21,14 @@ namespace UnityPlugins.Reflection.Editor
 			Label = label;
 			Parent = parent;
 			Source = source;
+		}
+
+		public void ShowAtCurrentMousePosition()
+		{
+			Rect rect = GUILayoutUtility.GetLastRect();
+			rect.width = Screen.width;
+			rect.position = Event.current.mousePosition;
+			Show(rect);
 		}
 
 		protected override AdvancedDropdownItem BuildRoot()

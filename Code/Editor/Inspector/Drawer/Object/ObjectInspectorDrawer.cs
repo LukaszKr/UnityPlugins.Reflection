@@ -16,10 +16,7 @@ namespace UnityPlugins.Reflection.Editor
 					if(GUILayout.Button($"N/A"))
 					{
 						TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source);
-						Rect rect = GUILayoutUtility.GetLastRect();
-						rect.width = Screen.width;
-						rect.position = Event.current.mousePosition;
-						dropdown.Show(rect);
+						dropdown.ShowAtCurrentMousePosition();
 					}
 				}
 				else
