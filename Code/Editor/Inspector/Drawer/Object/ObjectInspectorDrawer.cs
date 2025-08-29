@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityPlugins.Common.Editor;
 using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
