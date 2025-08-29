@@ -8,9 +8,25 @@ namespace UnityPlugins.Reflection.Editor
 	{
 		protected override void Draw(object parent, AValueSource source, object current)
 		{
-			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.BeginVertical("helpbox");
 			{
-				EditorGUILayout.LabelField(source.Name, EditorStyles.boldLabel, GUILayout.Width(EditorGUIUtility.labelWidth));
+				DrawHeader(parent, source, current);
+				DrawValue(current);
+			}
+			EditorGUILayout.EndVertical();
+		}
+
+		protected virtual void DrawHeader(object parent, AValueSource source, object current)
+		{
+			EditorGUILayout.BeginHorizontal("box");
+			{
+				string label = source.Name;
+				if(current != null)
+				{
+					label = $"{label}({current.GetType().Name})";
+				}
+
+				EditorGUILayout.LabelField(label);
 				if(current == null)
 				{
 					if(GUILayout.Button($"N/A"))
@@ -21,7 +37,6 @@ namespace UnityPlugins.Reflection.Editor
 				}
 				else
 				{
-					EditorGUILayout.LabelField(current.GetType().Name);
 					if(GUILayout.Button("X", GUILayout.Width(24)))
 					{
 						source.SetValue(parent, null);
@@ -29,10 +44,13 @@ namespace UnityPlugins.Reflection.Editor
 				}
 			}
 			EditorGUILayout.EndHorizontal();
+		}
 
+		protected virtual void DrawValue(object current)
+		{
 			if(current != null)
 			{
-				EditorGUILayout.BeginVertical("helpbox");
+				EditorGUILayout.BeginVertical();
 				{
 					TypeCacheEntry entry = m_Inspector.Analyzer.GetEntry(current.GetType());
 
