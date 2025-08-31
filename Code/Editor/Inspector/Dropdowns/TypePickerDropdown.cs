@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
+using UnityPlugins.Common.Editor;
 using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
-	public class TypePickerDropdown : AdvancedDropdown
+	public class TypePickerDropdown : ExtendedAdvancedDropdown
 	{
 		public readonly string Label;
 		public readonly object Parent;
