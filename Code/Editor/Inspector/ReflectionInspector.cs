@@ -28,6 +28,12 @@ namespace UnityPlugins.Reflection.Editor
 			Drawers.AddGenericDrawer(new UnityObjectInspectorDrawer());
 		}
 
+		public void Draw(object value, string name)
+		{
+			AInspectorDrawer drawer = Drawers.GetDrawer(value.GetType());
+			drawer.Draw(this, null, new StaticValueSource(value, name));
+		}
+
 		public void Draw(CodeValueSource source)
 		{
 			AInspectorDrawer drawer = Drawers.GetDrawer(source.Type);
