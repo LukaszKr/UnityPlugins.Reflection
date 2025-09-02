@@ -74,6 +74,13 @@ namespace UnityPlugins.Reflection.Logic
 			{
 				return false;
 			}
+
+			//no support for indexed elements at this time
+			if(property.GetIndexParameters().Length > 0)
+			{
+				return false;
+			}
+
 			return IsValid(property, property.PropertyType);
 		}
 	}

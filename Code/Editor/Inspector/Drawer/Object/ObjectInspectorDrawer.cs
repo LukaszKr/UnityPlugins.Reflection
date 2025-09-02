@@ -1,18 +1,20 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityPlugins.Common.Editor;
 using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
-	public class ObjectInspectorDrawer : AValueInspectorDrawer<object>
+	public class ObjectInspectorDrawer<TValue> : AValueInspectorDrawer<TValue>
 	{
-		protected override void Draw(object parent, AValueSource source, object current)
+		protected override void Draw(object parent, AValueSource source, TValue current)
 		{
-			EditorGUILayout.BeginVertical("helpbox");
+			EditorGUILayout.BeginVertical("box");
 			{
 				DrawHeader(parent, source, current);
-				DrawValue(current);
+				DrawValue(parent, source, current);
 				//Structs - otherwise any changes to them in sub-drawers would get discarded
 				if(source.Type.IsValueType)
 				{
@@ -22,9 +24,9 @@ namespace UnityPlugins.Reflection.Editor
 			EditorGUILayout.EndVertical();
 		}
 
-		protected virtual void DrawHeader(object parent, AValueSource source, object current)
+		protected virtual void DrawHeader(object parent, AValueSource source, TValue current)
 		{
-			EditorGUILayout.BeginHorizontal("box");
+			EditorGUILayout.BeginHorizontal("helpbox");
 			{
 				string label = source.Name;
 				if(current != null)
@@ -32,16 +34,25 @@ namespace UnityPlugins.Reflection.Editor
 					label = $"{label}({current.GetType().Name})";
 				}
 
-				EditorGUILayout.LabelField(label);
+				EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
 				if(current == null)
 				{
 					if(GUILayout.Button($"N/A"))
 					{
-						TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source);
-						dropdown.ShowAtCurrentMousePosition();
+						List<Type> types = TypeUtility.GetConstructableTypes(source.Type);
+						if(types.Count == 1)
+						{
+							object instance = TypeUtility.CreateInstance(types[0]);
+							source.SetValue(parent, instance);
+						}
+						else if(types.Count > 1)
+						{
+							TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source, types);
+							dropdown.ShowAtCurrentMousePosition();
+						}
 					}
 				}
-				else
+				else if(!source.Type.IsValueType)
 				{
 					if(GUILayout.Button("X", GUILayout.Width(24)))
 					{
@@ -52,7 +63,7 @@ namespace UnityPlugins.Reflection.Editor
 			EditorGUILayout.EndHorizontal();
 		}
 
-		protected virtual void DrawValue(object current)
+		protected virtual void DrawValue(object parent, AValueSource source, TValue current)
 		{
 			if(current != null)
 			{

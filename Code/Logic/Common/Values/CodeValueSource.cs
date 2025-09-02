@@ -23,12 +23,12 @@ namespace UnityPlugins.Reflection.Logic
 			m_Set = set;
 		}
 
-		public override object GetValue(object parent)
+		protected override object OnGetValue(object parent)
 		{
 			return m_Get();
 		}
 
-		public override void SetValue(object parent, object value)
+		protected override void OnSetValue(object parent, object value)
 		{
 			m_Set(value);
 		}

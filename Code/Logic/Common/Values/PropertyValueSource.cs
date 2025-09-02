@@ -15,12 +15,12 @@ namespace UnityPlugins.Reflection.Logic
 			Property = property;
 		}
 
-		public override object GetValue(object parent)
+		protected override object OnGetValue(object parent)
 		{
 			return Property.GetValue(parent);
 		}
 
-		public override void SetValue(object parent, object value)
+		protected override void OnSetValue(object parent, object value)
 		{
 			Property.SetValue(parent, value);
 		}

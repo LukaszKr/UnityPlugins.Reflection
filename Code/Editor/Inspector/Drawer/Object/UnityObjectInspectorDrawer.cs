@@ -8,7 +8,7 @@ namespace UnityPlugins.Reflection.Editor
 	{
 		protected override void Draw(object parent, AValueSource source, Object current)
 		{
-			Object newValue = EditorGUILayout.ObjectField(current, source.Type, false);
+			Object newValue = EditorGUILayout.ObjectField(source.Name, current, source.Type, false);
 			source.SetValue(parent, newValue);
 		}
 	}

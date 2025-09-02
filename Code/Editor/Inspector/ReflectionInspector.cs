@@ -24,8 +24,10 @@ namespace UnityPlugins.Reflection.Editor
 			Drawers.AddSpecificDrawer(new FloatInspectorDrawer());
 			Drawers.AddSpecificDrawer(new DoubleInspectorDrawer());
 
-			Drawers.AddGenericDrawer(new ObjectInspectorDrawer());
+			Drawers.AddGenericDrawer(new ObjectInspectorDrawer<object>());
 			Drawers.AddGenericDrawer(new UnityObjectInspectorDrawer());
+			Drawers.AddGenericDrawer(new ListInspectorDrawer());
+			Drawers.AddGenericDrawer(new ArrayInspectorDrawer());
 		}
 
 		public void Draw(object value, string name)
