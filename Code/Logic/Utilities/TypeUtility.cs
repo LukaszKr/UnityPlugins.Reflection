@@ -6,7 +6,7 @@ namespace UnityPlugins.Reflection.Logic
 {
 	public static class TypeUtility
 	{
-		private static readonly object[] m_ArrayArgs = new object[] { 1 };
+		private static readonly object[] m_ArrayArgs = new object[] { 0 };
 
 		public static object GetDefaultValue(this Type type)
 		{
