@@ -8,6 +8,15 @@ namespace UnityPlugins.Reflection.Logic
 	{
 		private static readonly object[] m_ArrayArgs = new object[] { 1 };
 
+		public static object GetDefaultValue(Type type)
+		{
+			if(type.IsValueType)
+			{
+				return Activator.CreateInstance(type);
+			}
+			return null;
+		}
+
 		public static object CreateInstance(Type type)
 		{
 			if(type.IsArray)

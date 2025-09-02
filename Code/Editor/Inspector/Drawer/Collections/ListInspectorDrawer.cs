@@ -4,9 +4,9 @@ namespace UnityPlugins.Reflection.Editor
 {
 	public class ListInspectorDrawer : AListInspectorDrawer<IList>
 	{
-		protected override IList AddElement(IList list)
+		protected override IList AddElement(IList list, object defaultValue)
 		{
-			list.Add(default);
+			list.Add(defaultValue);
 			return list;
 		}
 	}

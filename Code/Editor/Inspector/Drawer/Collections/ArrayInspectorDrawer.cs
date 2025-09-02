@@ -4,7 +4,7 @@ namespace UnityPlugins.Reflection.Editor
 {
 	public class ArrayInspectorDrawer : AListInspectorDrawer<Array>
 	{
-		protected override Array AddElement(Array array)
+		protected override Array AddElement(Array array, object defaultValue)
 		{
 			Type elementType = array.GetType().GetElementType();
 			Array newArray = Array.CreateInstance(elementType, array.Length+1);

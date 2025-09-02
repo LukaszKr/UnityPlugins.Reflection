@@ -26,11 +26,12 @@ namespace UnityPlugins.Reflection.Editor
 
 			if(GUILayout.Button("+"))
 			{
-				current = AddElement(current);
+				object defaultValue = TypeUtility.GetDefaultValue(elementSource.ElementType);
+				current = AddElement(current, defaultValue);
 				source.SetValue(parent, current);
 			}
 		}
 
-		protected abstract TValue AddElement(TValue list);
+		protected abstract TValue AddElement(TValue list, object defaultValue);
 	}
 }
