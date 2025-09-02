@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
@@ -9,7 +8,10 @@ namespace UnityPlugins.Reflection.Editor
 		protected override void Draw(object parent, AValueSource source, bool current)
 		{
 			bool newValue = EditorGUILayout.ToggleLeft(source.Name, current);
-			source.SetValue(parent, newValue);
+			if(current != newValue)
+			{
+				source.SetValue(parent, newValue);
+			}
 		}
 	}
 }

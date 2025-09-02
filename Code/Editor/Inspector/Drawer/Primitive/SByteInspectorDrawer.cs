@@ -10,7 +10,10 @@ namespace UnityPlugins.Reflection.Editor
 		{
 			long newValue = EditorGUILayout.IntField(source.Name, current);
 			long clamped = (sbyte)Math.Clamp(newValue, sbyte.MinValue, sbyte.MaxValue);
-			source.SetValue(parent, clamped);
+			if(current != clamped)
+			{
+				source.SetValue(parent, clamped);
+			}
 		}
 	}
 }

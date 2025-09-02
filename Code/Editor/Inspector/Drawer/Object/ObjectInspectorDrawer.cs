@@ -13,6 +13,11 @@ namespace UnityPlugins.Reflection.Editor
 			{
 				DrawHeader(parent, source, current);
 				DrawValue(current);
+				//Structs - otherwise any changes to them in sub-drawers would get discarded
+				if(source.Type.IsValueType)
+				{
+					source.SetValue(parent, current);
+				}
 			}
 			EditorGUILayout.EndVertical();
 		}
