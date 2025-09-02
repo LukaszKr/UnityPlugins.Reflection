@@ -1,13 +1,13 @@
 ﻿using System.Collections;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ListInspectorDrawer : AListInspectorDrawer<IList>
 	{
-		protected override IList AddElement(IList list, object defaultValue)
+		protected override AListValueSource CreateSource(object parent, AValueSource source, IList current)
 		{
-			list.Add(defaultValue);
-			return list;
+			return new ListValueSource(current);
 		}
 	}
 }

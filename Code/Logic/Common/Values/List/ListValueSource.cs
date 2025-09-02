@@ -3,27 +3,18 @@ using System.Collections;
 
 namespace UnityPlugins.Reflection.Logic
 {
-	public class ListValueSource : AValueSource
+	public class ListValueSource : AListValueSource
 	{
 		public readonly IList List;
 		public readonly Type ElementType;
-		public int Index;
 
-		public override string Name => $"[{Index}]";
 		public override Type Type => ElementType;
 
 		public ListValueSource(IList list)
 		{
 			List = list;
 			Type listType = list.GetType();
-			if(listType.HasElementType)
-			{
-				ElementType = listType.GetElementType();
-			}
-			else if(listType.IsGenericType)
-			{
-				ElementType = listType.GetGenericArguments()[0];
-			}
+			ElementType = listType.GetGenericArguments()[0];
 		}
 
 		protected override object OnGetValue(object parent)
@@ -34,6 +25,16 @@ namespace UnityPlugins.Reflection.Logic
 		protected override void OnSetValue(object parent, object value)
 		{
 			List[Index] = value;
+		}
+
+		public override void AddElement()
+		{
+			List.Add(ElementType.GetDefaultValue());
+		}
+
+		public override void RemoveAt(int index)
+		{
+			List.RemoveAt(index);
 		}
 	}
 }

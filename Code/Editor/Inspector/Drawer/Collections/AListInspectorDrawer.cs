@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityPlugins.Reflection.Logic;
 
@@ -15,23 +16,35 @@ namespace UnityPlugins.Reflection.Editor
 			}
 
 			int count = current.Count;
-			ListValueSource elementSource = new ListValueSource(current);
+			AListValueSource elementSource = CreateSource(parent, source, current);
 
 			for(int index = 0; index < count; ++index)
 			{
 				object element = current[index];
-				m_Inspector.Draw(elementSource);
+				AInspectorDrawer drawer = m_Inspector.Drawers.GetDrawer(elementSource.Type);
+				drawer.Draw(m_Inspector, current, elementSource);
 				elementSource.Index++;
 			}
 
 			if(GUILayout.Button("+"))
 			{
-				object defaultValue = TypeUtility.GetDefaultValue(elementSource.ElementType);
-				current = AddElement(current, defaultValue);
-				source.SetValue(parent, current);
+				elementSource.AddElement();
 			}
 		}
 
-		protected abstract TValue AddElement(TValue list, object defaultValue);
+		protected abstract AListValueSource CreateSource(object parent, AValueSource source, TValue current);
+
+		protected override void PopulateGenericMenu(GenericMenu menu, object parent, AValueSource source, TValue current)
+		{
+			if(!source.Type.IsValueType)
+			{
+				menu.AddItem(new GUIContent("Clear"), false, () =>
+				{
+					source.SetValue(parent, source.Type.CreateInstance());
+				});
+			}
+
+			base.PopulateGenericMenu(menu, parent, source, current);
+		}
 	}
 }

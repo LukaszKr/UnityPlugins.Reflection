@@ -37,7 +37,7 @@ namespace UnityPlugins.Reflection.Editor
 		protected override void ItemSelected(AdvancedDropdownItem item)
 		{
 			TypePickerDropdownItem typeItem = (TypePickerDropdownItem)item;
-			object instance = TypeUtility.CreateInstance(typeItem.Type);
+			object instance = typeItem.Type.CreateInstance();
 			Source.SetValue(Parent, instance);
 		}
 	}

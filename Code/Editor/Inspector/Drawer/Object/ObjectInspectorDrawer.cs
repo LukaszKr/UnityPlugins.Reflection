@@ -42,7 +42,7 @@ namespace UnityPlugins.Reflection.Editor
 						List<Type> types = TypeUtility.GetConstructableTypes(source.Type);
 						if(types.Count == 1)
 						{
-							object instance = TypeUtility.CreateInstance(types[0]);
+							object instance = types[0].CreateInstance();
 							source.SetValue(parent, instance);
 						}
 						else if(types.Count > 1)
@@ -54,10 +54,6 @@ namespace UnityPlugins.Reflection.Editor
 				}
 				else if(!source.Type.IsValueType)
 				{
-					if(GUILayout.Button("X", GUILayout.Width(24)))
-					{
-						source.SetValue(parent, null);
-					}
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -84,6 +80,17 @@ namespace UnityPlugins.Reflection.Editor
 					}
 				}
 				EditorGUILayout.EndVertical();
+			}
+		}
+
+		protected override void PopulateGenericMenu(GenericMenu menu, object parent, AValueSource source, TValue current)
+		{
+			if(!source.Type.IsValueType)
+			{
+				menu.AddItem(new GUIContent("Delete"), source.Type.IsValueType, () =>
+				{
+					source.SetValue(parent, source.Type.GetDefaultValue());
+				});
 			}
 		}
 	}

@@ -1,15 +1,13 @@
 ﻿using System;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
 	public class ArrayInspectorDrawer : AListInspectorDrawer<Array>
 	{
-		protected override Array AddElement(Array array, object defaultValue)
+		protected override AListValueSource CreateSource(object parent, AValueSource source, Array current)
 		{
-			Type elementType = array.GetType().GetElementType();
-			Array newArray = Array.CreateInstance(elementType, array.Length+1);
-			Array.Copy(array, newArray, Math.Min(array.Length, newArray.Length));
-			return newArray;
+			return new ArrayValueSource(parent, source, current);
 		}
 	}
 }

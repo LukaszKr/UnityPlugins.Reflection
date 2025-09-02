@@ -8,7 +8,7 @@ namespace UnityPlugins.Reflection.Logic
 	{
 		private static readonly object[] m_ArrayArgs = new object[] { 1 };
 
-		public static object GetDefaultValue(Type type)
+		public static object GetDefaultValue(this Type type)
 		{
 			if(type.IsValueType)
 			{
@@ -17,7 +17,7 @@ namespace UnityPlugins.Reflection.Logic
 			return null;
 		}
 
-		public static object CreateInstance(Type type)
+		public static object CreateInstance(this Type type)
 		{
 			if(type.IsArray)
 			{
