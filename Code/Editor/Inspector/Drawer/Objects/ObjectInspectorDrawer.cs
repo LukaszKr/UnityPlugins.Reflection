@@ -48,7 +48,7 @@ namespace UnityPlugins.Reflection.Editor
 						else if(types.Count > 1)
 						{
 							TypePickerDropdown dropdown = new TypePickerDropdown(source.Name, parent, source, types);
-							dropdown.ShowAtCurrentMousePosition();
+							dropdown.ShowAsContext();
 						}
 					}
 				}
