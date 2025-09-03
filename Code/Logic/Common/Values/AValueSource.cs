@@ -41,7 +41,6 @@ namespace UnityPlugins.Reflection.Logic
 			}
 		}
 
-
 		protected abstract object OnGetValue(object parent);
 		protected abstract void OnSetValue(object parent, object value);
 

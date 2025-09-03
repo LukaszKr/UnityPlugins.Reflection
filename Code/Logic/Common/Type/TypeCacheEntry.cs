@@ -7,6 +7,8 @@ namespace UnityPlugins.Reflection.Logic
 {
 	public class TypeCacheEntry
 	{
+		private readonly static TypeDepthBasedComparer m_Comparer = new TypeDepthBasedComparer();
+
 		public readonly TypeAnalyzer Analyzer;
 		public readonly Type Type;
 
@@ -57,6 +59,7 @@ namespace UnityPlugins.Reflection.Logic
 
 		private void ProcessFields(List<FieldValueSource> buffer, FieldInfo[] fields)
 		{
+			Array.Sort(fields, m_Comparer);
 			foreach(FieldInfo field in fields)
 			{
 				if(!Analyzer.IsValid(field))
@@ -69,6 +72,7 @@ namespace UnityPlugins.Reflection.Logic
 
 		private void ProcessProperties(List<PropertyValueSource> buffer, PropertyInfo[] properties)
 		{
+			Array.Sort(properties, m_Comparer);
 			foreach(PropertyInfo property in properties)
 			{
 				if(!Analyzer.IsValid(property))

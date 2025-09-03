@@ -8,6 +8,17 @@ namespace UnityPlugins.Reflection.Logic
 	{
 		private static readonly object[] m_ArrayArgs = new object[] { 0 };
 
+		public static int GetTypeDepth(Type type)
+		{
+			int depth = 0;
+			while(type != null && type != typeof(object))
+			{
+				depth++;
+				type = type.BaseType;
+			}
+			return depth;
+		}
+
 		public static object GetDefaultValue(this Type type)
 		{
 			if(type.IsValueType)
