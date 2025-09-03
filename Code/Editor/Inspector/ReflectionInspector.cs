@@ -4,6 +4,8 @@ namespace UnityPlugins.Reflection.Editor
 {
 	public class ReflectionInspector
 	{
+		public readonly static ReflectionInspector Instance = new ReflectionInspector();
+
 		public readonly TypeAnalyzer Analyzer = new TypeAnalyzer();
 		public readonly ReflectionDrawerManager Drawers = new ReflectionDrawerManager();
 
@@ -23,6 +25,8 @@ namespace UnityPlugins.Reflection.Editor
 			Drawers.AddSpecificDrawer(new ULongInspectorDrawer());
 			Drawers.AddSpecificDrawer(new FloatInspectorDrawer());
 			Drawers.AddSpecificDrawer(new DoubleInspectorDrawer());
+
+			Drawers.AddSpecificDrawer(new GuidInspectorDrawer());
 
 			Drawers.AddGenericDrawer(new ObjectInspectorDrawer<object>());
 			Drawers.AddGenericDrawer(new UnityObjectInspectorDrawer());
