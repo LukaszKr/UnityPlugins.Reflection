@@ -15,7 +15,7 @@ namespace UnityPlugins.Reflection.Logic
 
 		public ReflectionComparer()
 		{
-			Analyzer.Filter.Add(new ReflectionIgnoreTypeFilter());
+			Analyzer.Filters.Add(new ReflectionIgnoreTypeFilter());
 
 			Evaluators.Add(new DifferentTypeComparerEvaluator());
 			Evaluators.Add(new DifferentValueComparerEvaluator());

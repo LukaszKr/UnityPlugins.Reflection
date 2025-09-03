@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityPlugins.Common.Logic;
 
 namespace UnityPlugins.Reflection.Logic

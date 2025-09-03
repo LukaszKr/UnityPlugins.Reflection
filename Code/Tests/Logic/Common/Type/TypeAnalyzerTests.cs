@@ -44,7 +44,7 @@ namespace UnityPlugins.Reflection.Logic.Common.Types
 		{
 			m_Analyzer = new TypeAnalyzer();
 
-			m_Analyzer.Filter.Add(new ReflectionIgnoreTypeFilter());
+			m_Analyzer.Filters.Add(new ReflectionIgnoreTypeFilter());
 		}
 
 		[Test]
@@ -99,6 +99,15 @@ namespace UnityPlugins.Reflection.Logic.Common.Types
 
 			TypeCacheEntry entry = m_Analyzer.GetEntry(typeof(NestedType));
 			AssertEntry(entry, 0, 0);
+		}
+
+		[Test]
+		public void GetEntry_IgnorePrimitive()
+		{
+			m_Analyzer.Filters.Add(new IgnorePrimitiveTypeFilter());
+
+			TypeCacheEntry entry = m_Analyzer.GetEntry(typeof(IgnoredMembersType));
+			AssertEntry(entry, 1, 0);
 		}
 	}
 }

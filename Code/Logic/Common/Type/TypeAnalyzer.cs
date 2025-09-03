@@ -7,7 +7,7 @@ namespace UnityPlugins.Reflection.Logic
 	public class TypeAnalyzer
 	{
 		public readonly IgnoreTypeFilter IgnoreType = new IgnoreTypeFilter();
-		public readonly List<ITypeFilter> Filter = new List<ITypeFilter>();
+		public readonly List<ITypeFilter> Filters = new List<ITypeFilter>();
 
 		public bool IncludeInstance = true;
 		public bool IncludeStatic = false;
@@ -18,8 +18,8 @@ namespace UnityPlugins.Reflection.Logic
 		{
 			IgnoreType.Ignore.Add(typeof(Type));
 
-			Filter.Add(IgnoreType);
-			Filter.Add(new IgnoreCompilerGeneratedTypeFilter());
+			Filters.Add(IgnoreType);
+			Filters.Add(new IgnoreCompilerGeneratedTypeFilter());
 		}
 
 		public TypeCacheEntry GetEntry(Type type)
@@ -35,10 +35,10 @@ namespace UnityPlugins.Reflection.Logic
 
 		public bool IsValid(Type type)
 		{
-			int count = Filter.Count;
+			int count = Filters.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				ITypeFilter filter = Filter[x];
+				ITypeFilter filter = Filters[x];
 				if(!filter.IsValid(type))
 				{
 					return false;
@@ -50,10 +50,10 @@ namespace UnityPlugins.Reflection.Logic
 
 		public bool IsValid(MemberInfo member, Type type)
 		{
-			int count = Filter.Count;
+			int count = Filters.Count;
 			for(int x = 0; x < count; ++x)
 			{
-				ITypeFilter filter = Filter[x];
+				ITypeFilter filter = Filters[x];
 				if(!filter.IsValid(member, type))
 				{
 					return false;

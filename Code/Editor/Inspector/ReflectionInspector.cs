@@ -11,7 +11,7 @@ namespace UnityPlugins.Reflection.Editor
 
 		public ReflectionInspector()
 		{
-			Analyzer.Filter.Add(new ReflectionIgnoreTypeFilter());
+			Analyzer.Filters.Add(new ReflectionIgnoreTypeFilter());
 
 			Drawers.AddSpecificDrawer(new StringInspectorDrawer());
 			Drawers.AddSpecificDrawer(new BoolInspectorDrawer());
