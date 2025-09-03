@@ -11,7 +11,7 @@ namespace UnityPlugins.Reflection.Editor
 	{
 		protected override void Draw(object parent, AValueSource source, TValue current)
 		{
-			EditorGUILayout.BeginVertical("box");
+			EditorGUILayout.BeginVertical("FrameBox");
 			{
 				DrawHeader(parent, source, current);
 				DrawValue(parent, source, current);

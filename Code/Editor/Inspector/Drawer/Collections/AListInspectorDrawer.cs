@@ -26,10 +26,16 @@ namespace UnityPlugins.Reflection.Editor
 				elementSource.Index++;
 			}
 
-			if(GUILayout.Button("+"))
+			EditorGUILayout.BeginHorizontal();
 			{
-				elementSource.AddElement();
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("+", GUILayout.Width(40f)))
+				{
+					elementSource.AddElement();
+				}
+				GUILayout.FlexibleSpace();
 			}
+			EditorGUILayout.EndHorizontal();
 		}
 
 		protected abstract AListValueSource CreateSource(object parent, AValueSource source, TValue current);
