@@ -1,4 +1,5 @@
-﻿using UnityPlugins.Reflection.Logic;
+﻿using Newtonsoft.Json;
+using UnityPlugins.Reflection.Logic;
 
 namespace UnityPlugins.Reflection.Editor
 {
@@ -12,6 +13,7 @@ namespace UnityPlugins.Reflection.Editor
 		public ReflectionInspector()
 		{
 			Analyzer.Filters.Add(new ReflectionIgnoreTypeFilter());
+			Analyzer.Filters.Add(new AttributeTypeFilter<JsonIgnoreAttribute>());
 
 			Drawers.AddSpecificDrawer(new StringInspectorDrawer());
 			Drawers.AddSpecificDrawer(new BoolInspectorDrawer());
