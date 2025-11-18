@@ -1,8 +1,8 @@
 {
-    "name": "UnityPlugins.Reflection.Unity",
-    "rootNamespace": "UnityPlugins.Reflection.Unity",
+    "name": "UnityPlugins.Reflection.Logic",
+    "rootNamespace": "UnityPlugins.Reflection.Logic",
     "references": [
-        "GUID:1e58f1eea8b401b468984fdca70311df"
+        "UnityPlugins.Common.Logic"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,5 +12,5 @@
     "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false
+    "noEngineReferences": true
 }
